@@ -14,20 +14,22 @@
 								:key="player.id"
 								class="player-name pa-3"
 							>
-								{{ player.name }}
+								<span v-if="player.editing === false">{{ player.name }}</span>
 								<v-text-field
 									@keyup.enter="doneEdit(player, index)"
 									@keyup.esc="cancelEdit(index)"
-									:value="player.name"
+									v-model="player.name"
+									v-if="player.editing === true"
 								/>
 								<v-btn
 									@click="doneEdit(player, index)"
 									@keyup.enter="doneEdit(player, index)"
 									@keyup.esc="cancelEdit(index)"
-									>Change</v-btn
+									v-if="player.editing === true"
+									>Finish</v-btn
 								>
 								<div class="player-control">
-									<span class="edit-player" @click="editPlayer(player)"
+									<span class="edit-player" @click="editPlayer(player, index)"
 										>Edit</span
 									>
 									<span class="remove-player" @click="removePlayer(index)"
@@ -81,6 +83,7 @@ export default {
 				this.players.push({
 					id: this.playerId,
 					name: this.playerName,
+					editing: false,
 				});
 				this.playerId += 1;
 				this.playerName = '';
@@ -91,24 +94,20 @@ export default {
 		removePlayer(index) {
 			this.players.splice(index, 1);
 		},
-		editPlayer(player) {
-			this.playerNameCache = player.name;
-			this.editedPlayer = player;
+		editPlayer(player, index) {
+			console.log('editPlayer');
+			// this.playerNameCache = player.name;
+			// this.editedPlayer = player;
+			this.players[index].editing = true;
 		},
 		doneEdit(player, index) {
-			if (!this.editedPlayer) {
-				return;
-			}
-			this.editedPlayer = null;
-			this.players[index].name = player.name.trim();
+			console.log('doneEdit');
+			this.players[index].editing = false;
+			// this.players[index].name = player.name.trim();
 			// player1.name = player.name.trim();
 			if (!player.name.trim()) {
 				this.removePlayer(index);
 			}
-		},
-		cancelEdit(index) {
-			this.editedPlayer = null;
-			this.players[index].name = this.playerNameCache;
 		},
 		error(message) {
 			this.errorMessage = message;
