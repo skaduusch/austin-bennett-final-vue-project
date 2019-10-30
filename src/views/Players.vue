@@ -96,15 +96,11 @@ export default {
 		},
 		editPlayer(player, index) {
 			console.log('editPlayer');
-			// this.playerNameCache = player.name;
-			// this.editedPlayer = player;
 			this.players[index].editing = true;
 		},
 		doneEdit(player, index) {
 			console.log('doneEdit');
 			this.players[index].editing = false;
-			// this.players[index].name = player.name.trim();
-			// player1.name = player.name.trim();
 			if (!player.name.trim()) {
 				this.removePlayer(index);
 			}
