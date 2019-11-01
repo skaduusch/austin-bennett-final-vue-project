@@ -8,45 +8,12 @@
 						<div class="error-message">{{ errorMessage }}</div>
 					</transition>
 					<ol class="players-list text-left pa-0">
-						<transition-group>
-							<li
-								v-for="(player, index) in players"
-								:key="player.id"
-								class="player-name pa-3"
-							>
-								<span v-if="player.editing === false">{{ player.name }}</span>
-								<v-text-field
-									@keyup.enter="doneEdit(player, index)"
-									@keyup.esc="cancelEdit(index)"
-									v-model="player.name"
-									v-if="player.editing === true"
-								/>
-								<v-btn
-									@click="doneEdit(player, index)"
-									@keyup.enter="doneEdit(player, index)"
-									@keyup.esc="cancelEdit(index)"
-									v-if="player.editing === true"
-									>Finish</v-btn
-								>
-								<div class="player-control">
-									<span class="edit-player" @click="editPlayer(player, index)"
-										>Edit</span
-									>
-									<span class="remove-player" @click="removePlayer(index)"
-										>Remove</span
-									>
-								</div>
-							</li>
-						</transition-group>
+						<player :players="players"></player>
 					</ol>
 					<v-form @submit.prevent="addPlayer">
 						<v-row>
 							<v-col cols="12" sm="9">
-								<v-text-field
-									class="player-input"
-									v-model="playerName"
-									label="Player Name"
-								></v-text-field>
+								<v-text-field class="player-input" v-model="playerName" label="Player Name"></v-text-field>
 							</v-col>
 							<v-col cols="12" sm="3" class="d-flex align-center">
 								<v-btn type="submit" block class="my-1 primary">Add Player</v-btn>
@@ -55,26 +22,31 @@
 					</v-form>
 				</v-card>
 				<v-card></v-card>
-				<!-- <div>
-					<h3>{{ playerName }}</h3>
-					<h4>Players: {{ players }}</h4>
-				</div>-->
 			</v-col>
 		</v-row>
 	</v-container>
 </template>
 
 <script>
+import Player from '../components/Player.vue';
+
 export default {
 	data: () => {
 		return {
 			playerId: 1,
 			playerName: '',
-			players: [],
+			players: [{
+				id: 0,
+				name: 'Austin',
+				editing: false,
+			}],
 			editedPlayer: {},
 			showError: false,
 			errorMessage: '',
 		};
+	},
+	components: {
+		Player,
 	},
 	methods: {
 		addPlayer() {
@@ -89,20 +61,6 @@ export default {
 				this.playerName = '';
 			} else {
 				this.error('A name must be at least 2 characters');
-			}
-		},
-		removePlayer(index) {
-			this.players.splice(index, 1);
-		},
-		editPlayer(player, index) {
-			console.log('editPlayer');
-			this.players[index].editing = true;
-		},
-		doneEdit(player, index) {
-			console.log('doneEdit');
-			this.players[index].editing = false;
-			if (!player.name.trim()) {
-				this.removePlayer(index);
 			}
 		},
 		error(message) {
