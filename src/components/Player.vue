@@ -24,9 +24,7 @@
 
 <script>
 export default {
-	props: {
-		players,
-	},
+	props: ['players'],
 	methods: {
 		removePlayer(index) {
 			this.players.splice(index, 1);

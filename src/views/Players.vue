@@ -8,7 +8,7 @@
 						<div class="error-message">{{ errorMessage }}</div>
 					</transition>
 					<ol class="players-list text-left pa-0">
-						<player :players="players"></player>
+						<player :players="players" :bros="bros"></player>
 					</ol>
 					<v-form @submit.prevent="addPlayer">
 						<v-row>
@@ -35,14 +35,11 @@ export default {
 		return {
 			playerId: 1,
 			playerName: '',
-			players: [{
-				id: 0,
-				name: 'Austin',
-				editing: false,
-			}],
+			players: [],
 			editedPlayer: {},
 			showError: false,
 			errorMessage: '',
+			bros: 'bros',
 		};
 	},
 	components: {
