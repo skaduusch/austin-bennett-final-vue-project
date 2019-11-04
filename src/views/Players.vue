@@ -8,7 +8,7 @@
 						<div class="error-message">{{ errorMessage }}</div>
 					</transition>
 					<ol class="players-list text-left pa-0">
-						<player :players="players" :bros="bros"></player>
+						<player :players="getPlayers"></player>
 					</ol>
 					<v-form @submit.prevent="addPlayer">
 						<v-row>
@@ -29,13 +29,14 @@
 
 <script>
 import Player from '../components/Player.vue';
+import store from '../store';
 
 export default {
 	data: () => {
 		return {
 			playerId: 1,
 			playerName: '',
-			players: [],
+			players: store.players,
 			editedPlayer: {},
 			showError: false,
 			errorMessage: '',
@@ -49,7 +50,7 @@ export default {
 		addPlayer() {
 			this.clearError();
 			if (this.playerName.length > 1) {
-				this.players.push({
+				store.commit('addPlayer', {
 					id: this.playerId,
 					name: this.playerName,
 					editing: false,
@@ -66,6 +67,11 @@ export default {
 		},
 		clearError() {
 			this.showError = false;
+		},
+	},
+	computed: {
+		getPlayers() {
+			return store.state.players;
 		},
 	},
 };

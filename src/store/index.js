@@ -8,8 +8,12 @@ export default new Vuex.Store({
 		players: [],
 	},
 	mutations: {
+		addPlayer(state, player) {
+			state.players.push(player);
+		},
 	},
 	actions: {
+
 	},
 	modules: {
 	},
