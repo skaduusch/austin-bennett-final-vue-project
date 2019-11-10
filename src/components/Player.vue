@@ -8,12 +8,8 @@
 				v-model="player.name"
 				v-if="player.editing === true"
 			/>
-			<v-btn
-				@click="doneEdit(player, index)"
-				@keyup.enter="doneEdit(player, index)"
-				@keyup.esc="cancelEdit(index)"
-				v-if="player.editing === true"
-			>Finish</v-btn>
+			<v-btn @click="doneEdit(player, index)" v-if="player.editing === true" class="green">Finish</v-btn>
+			<v-btn @click="cancelEdit(index)" v-if="player.editing === true" class="secondary ml-3">Cancel</v-btn>
 			<div class="player-control">
 				<span class="edit-player" @click="editPlayer(player, index)">Edit</span>
 				<span class="remove-player" @click="removePlayer(index)">Remove</span>
@@ -27,14 +23,24 @@
 
 export default {
 	props: ['players'],
+	data: () => ({
+		playerName: '',
+	}),
 	methods: {
 		removePlayer(index) {
 			this.players.splice(index, 1);
 		},
 		editPlayer(player, index) {
+			this.playerName = player.name;
 			this.players[index].editing = true;
 		},
+		cancelEdit(index) {
+			this.players[index].name = this.playerName;
+			this.players[index].editing = false;
+			this.playerName = '';
+		},
 		doneEdit(player, index) {
+			this.playerName = '';
 			this.players[index].editing = false;
 			this.$store.commit('editPlayer', {
 				id: this.playerId,
@@ -48,3 +54,6 @@ export default {
 	},
 };
 </script>
+<style scoped lang="scss">
+//
+</style>

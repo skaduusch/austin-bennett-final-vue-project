@@ -21,7 +21,11 @@
 						</v-row>
 					</v-form>
 				</v-card>
-				<v-card></v-card>
+			</v-col>
+		</v-row>
+		<v-row>
+			<v-col>
+				<v-btn class="primary" @click="newGame">Start A New Game With These Players</v-btn>
 			</v-col>
 		</v-row>
 	</v-container>
@@ -33,10 +37,7 @@ import Player from '../components/Player.vue';
 
 export default {
 	data: () => ({
-		// playerId: this.playersLength(),
 		playerName: '',
-		// players: this.players(),
-		editedPlayer: {},
 		showError: false,
 		errorMessage: '',
 	}),
@@ -64,6 +65,9 @@ export default {
 		},
 		clearError() {
 			this.showError = false;
+		},
+		newGame() {
+			this.$store.dispatch('newGame', this.players);
 		},
 	},
 	computed: {

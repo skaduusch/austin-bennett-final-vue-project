@@ -54,10 +54,10 @@ export default new Vuex.Store({
 		...vuexfireMutations,
 	},
 	actions: {
-		bindUser: firestoreAction(({ bindFirestoreRef }) => {
-			// return the promise returned by `bindFirestoreRef`
-			return bindFirestoreRef('user', db.document('WWQhnwC6fsWAXtVw3ZJe16Nrcvu2'));
-		}),
+		bindUser: firestoreAction(({ bindFirestoreRef }) => { bindFirestoreRef('user', db.collection('users').doc('austin')); }),
+		newGame() {
+			// TODO: start a new game
+		},
 	},
 	getters: {
 		user: state => state.user,
