@@ -5,10 +5,10 @@
 			<v-col cols="12">
 				<v-card class="pa-4">
 					<transition>
-						<div class="error-message">{{ errorMessage }}</div>
+						<div class="error-message" v-if="showError">{{ errorMessage }}</div>
 					</transition>
 					<ol class="players-list text-left pa-0">
-						<player :players="getPlayers"></player>
+						<player :players="players"></player>
 					</ol>
 					<v-form @submit.prevent="addPlayer">
 						<v-row>
@@ -29,33 +29,30 @@
 
 <script>
 import Player from '../components/Player.vue';
-import store from '../store';
+// import store from '../store';
 
 export default {
-	data: () => {
-		return {
-			playerId: 1,
-			playerName: '',
-			players: store.players,
-			editedPlayer: {},
-			showError: false,
-			errorMessage: '',
-			bros: 'bros',
-		};
-	},
+	data: () => ({
+		// playerId: this.playersLength(),
+		playerName: '',
+		// players: this.players(),
+		editedPlayer: {},
+		showError: false,
+		errorMessage: '',
+	}),
 	components: {
 		Player,
 	},
 	methods: {
 		addPlayer() {
 			this.clearError();
-			if (this.playerName.length > 1) {
-				store.commit('addPlayer', {
+			if (this.playerName && this.playerName.length > 1) {
+				this.$store.commit('addPlayer', {
 					id: this.playerId,
 					name: this.playerName,
 					editing: false,
 				});
-				this.playerId += 1;
+				// this.playerId = this.$store.getters.playersLength;
 				this.playerName = '';
 			} else {
 				this.error('A name must be at least 2 characters');
@@ -70,8 +67,11 @@ export default {
 		},
 	},
 	computed: {
-		getPlayers() {
-			return store.state.players;
+		players() {
+			return this.$store.getters.players;
+		},
+		playerId() {
+			return this.players[this.players.length - 1].id + 1;
 		},
 	},
 };

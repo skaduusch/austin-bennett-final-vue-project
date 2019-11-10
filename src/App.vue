@@ -10,6 +10,12 @@
 	</div>
 </template>
 
+<script>
+export default {
+
+};
+</script>
+
 <style lang="scss">
 html {
 	font-size: 62.5%;
@@ -23,7 +29,7 @@ html {
 }
 
 #nav {
-	padding: 30px;
+	padding: 3rem;
 
 	a {
 		font-weight: bold;

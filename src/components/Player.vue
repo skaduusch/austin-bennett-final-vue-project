@@ -23,6 +23,8 @@
 </template>
 
 <script>
+// import store from '../store';
+
 export default {
 	props: ['players'],
 	methods: {
@@ -30,12 +32,15 @@ export default {
 			this.players.splice(index, 1);
 		},
 		editPlayer(player, index) {
-			console.log('editPlayer');
 			this.players[index].editing = true;
 		},
 		doneEdit(player, index) {
-			console.log('doneEdit');
 			this.players[index].editing = false;
+			this.$store.commit('editPlayer', {
+				id: this.playerId,
+				name: this.playerName,
+				editing: false,
+			}, index);
 			if (!player.name.trim()) {
 				this.removePlayer(index);
 			}
