@@ -2,8 +2,9 @@
 	<div id="app">
 		<v-app>
 			<div id="nav">
-				<router-link to="/">Home</router-link>|
+				<router-link to="/">Home</router-link>
 				<router-link to="/players">Players</router-link>
+				<router-link to="/games">Games</router-link>
 			</div>
 			<router-view />
 		</v-app>
@@ -31,6 +32,7 @@ export default {
 	a {
 		font-weight: bold;
 		color: #2c3e50;
+		margin-left: 0.875rem;
 
 		&.router-link-exact-active {
 			color: #42b983;

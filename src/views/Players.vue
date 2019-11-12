@@ -33,6 +33,7 @@
 
 <script>
 import Player from '../components/Player.vue';
+import db from '../db';
 // import store from '../store';
 
 export default {
@@ -40,6 +41,7 @@ export default {
 		playerName: '',
 		showError: false,
 		errorMessage: '',
+		firePlayers: [],
 	}),
 	components: {
 		Player,
@@ -68,6 +70,7 @@ export default {
 		},
 		newGame() {
 			this.$store.dispatch('newGame', this.players);
+			this.$router.push(`/games/game/${this.nextGameId}`);
 		},
 	},
 	computed: {
@@ -77,6 +80,14 @@ export default {
 		playerId() {
 			return this.players[this.players.length - 1].id + 1;
 		},
+		nextGameId() {
+			return this.$store.getters.nextGameId;
+		},
+	},
+	firestore() {
+		return {
+			firePlayers: db.collection('users').orderBy('createdAt'),
+		};
 	},
 };
 </script>
