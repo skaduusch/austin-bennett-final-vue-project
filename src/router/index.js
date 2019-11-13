@@ -31,11 +31,12 @@ const routes = [
 		name: 'games',
 		component: Games,
 		children: [
-			{
-				path: 'game/:id',
-				component: Game,
-			},
 		],
+	},
+	{
+		path: '/games/:id',
+		name: 'game',
+		component: Game,
 	},
 ];
 

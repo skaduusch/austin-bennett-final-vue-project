@@ -7,7 +7,7 @@ export const db = firebase
 	.firestore();
 
 // console.log('db.firestore', db.collection('users').doc('WWQhnwC6fsWAXtVw3ZJe16Nrcvu2').get().then());
-const docRef = db.collection('users').doc('WWQhnwC6fsWAXtVw3ZJe16Nrcvu2');
+const docRef = db.collection('users').doc('WWQhnwC6fsWAXtVw3ZJe16Nrcvu2').collection('games').doc('game1');
 docRef.get().then((doc) => {
 	if (doc.exists) {
 		console.log('Document data:', doc.data());

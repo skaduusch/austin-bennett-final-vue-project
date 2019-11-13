@@ -47,7 +47,7 @@ export default new Vuex.Store({
 			games: [
 				{
 					gameId: 0,
-					gameType: 'cardgame',
+					gameName: 'Nertz 1',
 					gamePlayers: [
 						{
 							name: 'Austin',
@@ -59,6 +59,30 @@ export default new Vuex.Store({
 							name: 'Shae',
 							scores: [
 								33, 10, 73,
+							],
+						},
+						{
+							name: 'Logan',
+							scores: [
+								23, 11, -10,
+							],
+						},
+					],
+				},
+				{
+					gameId: 1,
+					gameName: 'Golf Austin/Shae',
+					gamePlayers: [
+						{
+							name: 'Shae',
+							scores: [
+								8, 3, 2, 1, 4,
+							],
+						},
+						{
+							name: 'Austin',
+							scores: [
+								12, 3, 0, 1,
 							],
 						},
 					],
@@ -104,5 +128,6 @@ export default new Vuex.Store({
 		firstname: state => state.user.fname,
 		lastname: state => state.user.lname,
 		nextGameId: state => state.nextGameId,
+		games: state => state.user.games,
 	},
 });
