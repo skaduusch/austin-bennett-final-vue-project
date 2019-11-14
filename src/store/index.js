@@ -8,7 +8,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		nextGameId: 1,
+		nextGameId: 2,
 		user: {
 			fname: 'Austin',
 			lname: 'Bennett',
@@ -46,7 +46,7 @@ export default new Vuex.Store({
 			],
 			games: [
 				{
-					gameId: 0,
+					gameId: '0',
 					gameName: 'Nertz 1',
 					gamePlayers: [
 						{
@@ -70,7 +70,7 @@ export default new Vuex.Store({
 					],
 				},
 				{
-					gameId: 1,
+					gameId: '1',
 					gameName: 'Golf Austin/Shae',
 					gamePlayers: [
 						{
@@ -104,9 +104,10 @@ export default new Vuex.Store({
 		incrementGameId(state) {
 			state.nextGameId += 1;
 		},
-		newGame(state, players) {
+		newGame(state, players, gameName) {
 			state.user.games.push({
-				gameId: this.nextGameId,
+				gameId: state.nextGameId.toString(),
+				gameName,
 				gamePlayers: players,
 			});
 		},
@@ -114,10 +115,10 @@ export default new Vuex.Store({
 		...vuexfireMutations,
 	},
 	actions: {
-		bindUser: firestoreAction(({ bindFirestoreRef }) => { bindFirestoreRef('user', db.collection('users').doc('austin').get().data()); }),
+		bindUser: firestoreAction(({ bindFirestoreRef }) => { bindFirestoreRef('user', db.collection('users').doc('austin')); }),
 		bindUsers: firestoreAction(({ bindFirestoreRef }) => { bindFirestoreRef('users', db.collection('users')); }),
-		newGame(context, players) {
-			context.commit('newGame', players);
+		newGame(context, players, gameName) {
+			context.commit('newGame', players, gameName);
 			context.commit('incrementGameId');
 		},
 	},
@@ -129,5 +130,6 @@ export default new Vuex.Store({
 		lastname: state => state.user.lname,
 		nextGameId: state => state.nextGameId,
 		games: state => state.user.games,
+		currentGame: state => gameId => state.user.games.find(o => o.gameId === gameId),
 	},
 });

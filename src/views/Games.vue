@@ -2,10 +2,9 @@
 	<v-container>
 		<v-row>
 			<v-col>
-				<h2>This is the games component</h2>
 				<v-list>
 					<v-list-item v-for="game in games" :key="game.gameId">
-						<router-link :to="'game' + game.gameId">{{ game.gameName }}</router-link>
+						<router-link :to="'/games/' + game.gameId">{{ game.gameName }}</router-link>
 					</v-list-item>
 				</v-list>
 				<!-- <router-view></router-view> -->

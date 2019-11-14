@@ -30,11 +30,9 @@ const routes = [
 		path: '/games',
 		name: 'games',
 		component: Games,
-		children: [
-		],
 	},
 	{
-		path: '/games/:id',
+		path: '/games/:gameId',
 		name: 'game',
 		component: Game,
 	},

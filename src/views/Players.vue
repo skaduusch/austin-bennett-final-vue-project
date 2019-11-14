@@ -25,6 +25,7 @@
 		</v-row>
 		<v-row>
 			<v-col>
+				<v-text-field class="game-name-input" v-model="gameName" label="Game Name"></v-text-field>
 				<v-btn class="primary" @click="newGame">Start A New Game With These Players</v-btn>
 			</v-col>
 		</v-row>
@@ -41,6 +42,7 @@ export default {
 		playerName: '',
 		showError: false,
 		errorMessage: '',
+		gameName: 'Unnamed Game',
 		firePlayers: [],
 	}),
 	components: {
@@ -69,8 +71,8 @@ export default {
 			this.showError = false;
 		},
 		newGame() {
-			this.$store.dispatch('newGame', this.players);
-			this.$router.push(`/games/game/${this.nextGameId}`);
+			this.$store.dispatch('newGame', this.players, this.gameName);
+			this.$router.push(`/games/${this.nextGameId}`);
 		},
 	},
 	computed: {
