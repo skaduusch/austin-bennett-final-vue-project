@@ -89,11 +89,10 @@ export default new Vuex.Store({
 				},
 			],
 		},
-		users: [],
 	},
 	mutations: {
-		setStateFromFirestore(state) {
-			this.state = state;
+		setStateFromFirestore(user) {
+			this.state.user = user;
 		},
 		addPlayer(state, player) {
 			state.user.players.push(player);
@@ -104,21 +103,27 @@ export default new Vuex.Store({
 		incrementGameId(state) {
 			state.nextGameId += 1;
 		},
-		newGame(state, players, gameName) {
+		newGame(state, payload) {
 			state.user.games.push({
 				gameId: state.nextGameId.toString(),
-				gameName,
-				gamePlayers: players,
+				gameName: payload.gameName,
+				gamePlayers: payload.players,
 			});
 		},
 		// setUser: (state) => { state.user = firebase.auth().currentUser; },
 		...vuexfireMutations,
 	},
 	actions: {
-		bindUser: firestoreAction(({ bindFirestoreRef }) => { bindFirestoreRef('user', db.collection('users').doc('austin')); }),
+		bindUser(context) {
+			db.collection('users').doc('austin')
+				.onSnapshot((doc) => {
+					console.log('doc.data(): ', doc.data());
+					context.commit('setStateFromFirestore', doc.data());
+				});
+		},
 		bindUsers: firestoreAction(({ bindFirestoreRef }) => { bindFirestoreRef('users', db.collection('users')); }),
-		newGame(context, players, gameName) {
-			context.commit('newGame', players, gameName);
+		newGame(context, payload) {
+			context.commit('newGame', payload);
 			context.commit('incrementGameId');
 		},
 	},

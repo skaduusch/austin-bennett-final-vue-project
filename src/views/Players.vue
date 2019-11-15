@@ -3,6 +3,7 @@
 	<v-container class="grey lighten-5">
 		<v-row no-gutters>
 			<v-col cols="12">
+				<h2>Ready for a new game {{ user.fname }}?</h2>
 				<v-card class="pa-4">
 					<transition>
 						<div class="error-message" v-if="showError">{{ errorMessage }}</div>
@@ -34,7 +35,7 @@
 
 <script>
 import Player from '../components/Player.vue';
-import db from '../db';
+// import db from '../db';
 // import store from '../store';
 
 export default {
@@ -42,8 +43,7 @@ export default {
 		playerName: '',
 		showError: false,
 		errorMessage: '',
-		gameName: 'Unnamed Game',
-		firePlayers: [],
+		gameName: 'UnnamedGame',
 	}),
 	components: {
 		Player,
@@ -71,11 +71,17 @@ export default {
 			this.showError = false;
 		},
 		newGame() {
-			this.$store.dispatch('newGame', this.players, this.gameName);
+			this.$store.commit('newGame', {
+				players: this.players,
+				gameName: this.gameName,
+			});
 			this.$router.push(`/games/${this.nextGameId}`);
 		},
 	},
 	computed: {
+		user() {
+			return this.$store.getters.user;
+		},
 		players() {
 			return this.$store.getters.players;
 		},
@@ -85,11 +91,6 @@ export default {
 		nextGameId() {
 			return this.$store.getters.nextGameId;
 		},
-	},
-	firestore() {
-		return {
-			firePlayers: db.collection('users').orderBy('createdAt'),
-		};
 	},
 };
 </script>

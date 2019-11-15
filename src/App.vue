@@ -13,7 +13,9 @@
 
 <script>
 export default {
-	//
+	// created() {
+	// this.$store.dispatch('bindUser');
+	// },
 };
 </script>
 

@@ -2,16 +2,13 @@
 	<v-container>
 		<v-row>
 			<v-col>
-				<v-card>
-					<h3>This is the GameScores component</h3>
-					<h2>The gameId is: {{ gameId }}</h2>
-					<div class="players-list">
-						<div class="player" v-for="player in players" :key="player.name">
-							<player-scores :player="player"></player-scores>
-						</div>
-					</div>
-				</v-card>
-				<div>{{game}}</div>
+				<h3>This is the GameScores component</h3>
+				<h2>The gameId is: {{ gameId }}</h2>
+				<div class="players-list">
+					<v-card class="player" v-for="player in players" :key="player.name">
+						<player-scores :player="player"></player-scores>
+					</v-card>
+				</div>
 			</v-col>
 		</v-row>
 	</v-container>
@@ -34,6 +31,9 @@ export default {
 };
 </script>
 
-<style>
-
+<style scoped lang="scss">
+.players-list {
+	display: flex;
+	justify-content: space-around;
+}
 </style>
