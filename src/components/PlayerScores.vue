@@ -24,7 +24,7 @@ export default {
 			name: this.player.name,
 			newScore: '',
 			scoreRules: [
-				value => /^[0-9]*$/.test(value) || 'Only Numbers are Valid',
+				value => /((\+|-)?([0-9]+)(\.[0-9]+)?)|((\+|-)?\.?[0-9]+)/.test(value) || 'Only Numbers are Valid',
 			],
 		};
 	},
