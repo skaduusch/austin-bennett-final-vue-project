@@ -10,6 +10,7 @@
 			label="New Score"
 			:rules="scoreRules"
 			pattern="[0-9]*"
+			lazy-validation="true"
 		></v-text-field>
 		<v-btn @click="addScore">Add</v-btn>
 	</div>

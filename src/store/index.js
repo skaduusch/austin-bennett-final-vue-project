@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import { vuexfireMutations, firestoreAction } from 'vuexfire';
-import { db } from '../db';
+import firebase from 'firebase';
+import firestore from '../firebase';
 
 Vue.use(Vuex);
 // Vue.use(firebase);
@@ -9,7 +10,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
 		nextGameId: 2,
-		user: {
+		/* user: {
 			fname: 'Austin',
 			lname: 'Bennett',
 			players: [
@@ -88,7 +89,8 @@ export default new Vuex.Store({
 					],
 				},
 			],
-		},
+		}, */
+		user: null,
 	},
 	mutations: {
 		setStateFromFirestore(user) {
@@ -110,21 +112,63 @@ export default new Vuex.Store({
 				gamePlayers: payload.players,
 			});
 		},
+		setUser(state, payload) {
+			state.user = payload;
+		},
 		// setUser: (state) => { state.user = firebase.auth().currentUser; },
 		...vuexfireMutations,
 	},
 	actions: {
-		bindUser(context) {
-			db.collection('users').doc('austin')
-				.onSnapshot((doc) => {
-					console.log('doc.data(): ', doc.data());
-					context.commit('setStateFromFirestore', doc.data());
-				});
-		},
-		bindUsers: firestoreAction(({ bindFirestoreRef }) => { bindFirestoreRef('users', db.collection('users')); }),
+		// bindUser(context) {
+		// db.collection('users').doc('austin')
+		// .onSnapshot((doc) => {
+		// console.log('doc.data(): ', doc.data());
+		// context.commit('setStateFromFirestore', doc.data());
+		// });
+		// },
+		bindUserRef: firestoreAction(({ bindFirestoreRef }) => {
+			// context contains all original properties like commit, state, etc
+			// and adds `bindFirestoreRef` and `unbindFirestoreRef`
+			// we return the promise returned by `bindFirestoreRef` that will
+			// resolve once data is ready
+			return bindFirestoreRef('user', firestore.collection('users').doc('austin'));
+		}),
 		newGame(context, payload) {
 			context.commit('newGame', payload);
 			context.commit('incrementGameId');
+		},
+		createUser(context, payload) {
+			firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+				.then(
+					(user) => {
+						const newUser = {
+							id: user.uid,
+							username: payload.username,
+						};
+						context.commit('setUser', newUser);
+					},
+				)
+				.catch(
+					(error) => {
+						console.log(error);
+					},
+				);
+		},
+		signIn(context, payload) {
+			firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
+				.then(
+					(user) => {
+						const newUser = {
+							id: user.uid,
+						};
+						context.commit('setUser', newUser);
+					},
+				)
+				.catch(
+					(error) => {
+						console.log(error);
+					},
+				);
 		},
 	},
 	getters: {

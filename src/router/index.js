@@ -4,6 +4,8 @@ import Home from '../views/Home.vue';
 import Players from '../views/Players.vue';
 import Games from '../views/Games.vue';
 import Game from '../views/Game.vue';
+import SignIn from '../views/SignIn.vue';
+import SignUp from '../views/SignUp.vue';
 
 Vue.use(VueRouter);
 
@@ -35,6 +37,16 @@ const routes = [
 		path: '/games/:gameId',
 		name: 'game',
 		component: Game,
+	},
+	{
+		path: '/signIn',
+		name: 'Sign In',
+		component: SignIn,
+	},
+	{
+		path: '/signUp',
+		name: 'Sign Up',
+		component: SignUp,
 	},
 ];
 

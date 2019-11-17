@@ -5,6 +5,9 @@
 				<router-link to="/">Home</router-link>
 				<router-link to="/players">Players</router-link>
 				<router-link to="/games">Games</router-link>
+				<router-link to="/signin" v-if="!user">Sign In</router-link>
+				<router-link to="/signup" v-if="!user">Sign Up</router-link>
+				<span v-if="user">{{ user.name }}</span>
 			</div>
 			<router-view />
 		</v-app>
@@ -16,6 +19,11 @@ export default {
 	// created() {
 	// this.$store.dispatch('bindUser');
 	// },
+	computed: {
+		user() {
+			return this.$store.getters.user;
+		},
+	},
 };
 </script>
 
