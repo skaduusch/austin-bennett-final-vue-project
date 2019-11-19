@@ -7,7 +7,7 @@
 				<router-link to="/games">Games</router-link>
 				<router-link to="/signin" v-if="!user">Sign In</router-link>
 				<router-link to="/signup" v-if="!user">Sign Up</router-link>
-				<span v-if="user">{{ user.name }}</span>
+				<span v-if="user">{{ user.username }}</span>
 			</div>
 			<router-view />
 		</v-app>

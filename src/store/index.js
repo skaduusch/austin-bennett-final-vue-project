@@ -141,11 +141,29 @@ export default new Vuex.Store({
 			firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
 				.then(
 					(user) => {
-						const newUser = {
+						console.log('user', user);
+						const docRef = firestore.collection('users').doc('WWQhnwC6fsWAXtVw3ZJe16Nrcvu2');
+						docRef.get().then((doc) => {
+							console.log('doc.data(): outside: ', doc.data());
+							if (doc.exists) {
+								console.log('doc.data(): inside: ', doc.data());
+								const newUser = {
+									id: doc.data().user.uid,
+									username: payload.username,
+								};
+								context.commit('setUser', newUser);
+							} else {
+								// doc.data() will be undefined in this case
+								console.log('No user.uid document!');
+							}
+						}).catch((error) => {
+							console.log('Error getting document:', error);
+						});
+						/* const newUser = {
 							id: user.uid,
 							username: payload.username,
-						};
-						context.commit('setUser', newUser);
+						}; */
+						// context.commit('setUser', newUser);
 					},
 				)
 				.catch(
@@ -158,15 +176,32 @@ export default new Vuex.Store({
 			firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
 				.then(
 					(user) => {
-						const newUser = {
-							id: user.uid,
-						};
-						context.commit('setUser', newUser);
+						console.log('firestore:', firestore);
+						console.log('firestore.collection: ', firestore.collection('users'));
+						console.log('user: ', user);
+						const docRef = firestore.collection('users').doc('austin');
+						console.log('docRef: ', docRef);
+						docRef.get().then((doc) => {
+							console.log('doc.data(): outside: ', doc.data());
+							if (doc.exists) {
+								console.log('doc.data(): inside: ', doc.data());
+								const newUser = {
+									id: doc.data().user.uid,
+									username: payload.username,
+								};
+								context.commit('setUser', newUser);
+							} else {
+								// doc.data() will be undefined in this case
+								console.log('No user.uid document!');
+							}
+						}).catch((error) => {
+							console.log('Error getting document:', error);
+						});
 					},
 				)
 				.catch(
 					(error) => {
-						console.log(error);
+						console.log('Error Logging In: ', error);
 					},
 				);
 		},
@@ -175,8 +210,7 @@ export default new Vuex.Store({
 		user: state => state.user,
 		players: state => state.user.players,
 		playersLength: state => state.user.players.length,
-		firstname: state => state.user.fname,
-		lastname: state => state.user.lname,
+		username: state => state.user.username,
 		nextGameId: state => state.nextGameId,
 		games: state => state.user.games,
 		currentGame: state => gameId => state.user.games.find(o => o.gameId === gameId),
