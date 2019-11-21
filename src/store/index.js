@@ -10,7 +10,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
 		nextGameId: 2,
-		/* user: {
+		user: {
 			fname: 'Austin',
 			lname: 'Bennett',
 			players: [
@@ -28,19 +28,7 @@ export default new Vuex.Store({
 				},
 				{
 					id: 2,
-					name: 'Josh',
-					editing: false,
-					scores: [],
-				},
-				{
-					id: 3,
-					name: 'Alex',
-					editing: false,
-					scores: [],
-				},
-				{
-					id: 4,
-					name: 'Brad',
+					name: 'Thor',
 					editing: false,
 					scores: [],
 				},
@@ -89,8 +77,8 @@ export default new Vuex.Store({
 					],
 				},
 			],
-		}, */
-		user: null,
+		},
+		// user: null,
 	},
 	mutations: {
 		setStateFromFirestore(user) {
@@ -126,13 +114,7 @@ export default new Vuex.Store({
 		// context.commit('setStateFromFirestore', doc.data());
 		// });
 		// },
-		bindUserRef: firestoreAction(({ bindFirestoreRef }) => {
-			// context contains all original properties like commit, state, etc
-			// and adds `bindFirestoreRef` and `unbindFirestoreRef`
-			// we return the promise returned by `bindFirestoreRef` that will
-			// resolve once data is ready
-			return bindFirestoreRef('user', firestore.collection('users').doc('austin'));
-		}),
+		bindUserRef: firestoreAction(({ bindFirestoreRef }) => bindFirestoreRef('user', firestore.collection('users').doc('austin'))),
 		newGame(context, payload) {
 			context.commit('newGame', payload);
 			context.commit('incrementGameId');

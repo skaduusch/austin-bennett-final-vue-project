@@ -4,6 +4,7 @@
 		<ul>
 			<li v-for="(score, index) in scores" :key="index" @click="editScore(index)">{{ score }}</li>
 		</ul>
+		<p class="sum">{{ sumScore }}</p>
 		<v-text-field
 			type="tel"
 			v-model="newScore"
@@ -11,6 +12,8 @@
 			:rules="scoreRules"
 			pattern="[0-9]*"
 			lazy-validation="true"
+			:clearable="true"
+			class="scoreInput"
 		></v-text-field>
 		<v-btn @click="addScore">Add</v-btn>
 	</div>
@@ -23,9 +26,9 @@ export default {
 		return {
 			scores: this.player.scores,
 			name: this.player.name,
-			newScore: '',
+			newScore: null,
 			scoreRules: [
-				value => /((\+|-)?([0-9]+)(\.[0-9]+)?)|((\+|-)?\.?[0-9]+)/.test(value) || 'Only Numbers are Valid',
+				value => /(^$|^[0-9]*$|null)/.test(value) || 'Only Numbers are Valid',
 			],
 		};
 	},
@@ -34,13 +37,18 @@ export default {
 			const numScore = parseInt(this.newScore, 10);
 			if (numScore) {
 				this.scores.push(parseInt(this.newScore, 10));
-				this.newScore = '';
+				this.newScore = null;
 			} else {
 				console.log('numScore is not');
 			}
 		},
 		editScore(index) {
 			console.log(index);
+		},
+	},
+	computed: {
+		sumScore() {
+			return this.player.scores.reduce((a, b) => a + b, 0);
 		},
 	},
 };
@@ -53,5 +61,8 @@ export default {
 		list-style: none;
 		padding: 0;
 	}
+}
+.sum {
+	font-weight: 900;
 }
 </style>
