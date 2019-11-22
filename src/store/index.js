@@ -39,19 +39,25 @@ export default new Vuex.Store({
 					gameName: 'Nertz 1',
 					gamePlayers: [
 						{
+							id: 0,
 							name: 'Austin',
+							editing: false,
 							scores: [
 								23, 19, 53,
 							],
 						},
 						{
+							id: 1,
 							name: 'Shae',
+							editing: false,
 							scores: [
 								33, 10, 73,
 							],
 						},
 						{
+							id: 2,
 							name: 'Logan',
+							editing: false,
 							scores: [
 								23, 11, -10,
 							],

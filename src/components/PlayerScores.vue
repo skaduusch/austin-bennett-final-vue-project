@@ -20,6 +20,7 @@
 </template>
 
 <script>
+const numRegex = /(^$|^[0-9]*$|null)/;
 export default {
 	props: ['player'],
 	data() {
@@ -28,14 +29,14 @@ export default {
 			name: this.player.name,
 			newScore: null,
 			scoreRules: [
-				value => /(^$|^[0-9]*$|null)/.test(value) || 'Only Numbers are Valid',
+				value => numRegex.test(value) || 'Only Numbers are Valid',
 			],
 		};
 	},
 	methods: {
 		addScore() {
 			const numScore = parseInt(this.newScore, 10);
-			if (numScore) {
+			if (numScore && numRegex.test(this.newScore)) {
 				this.scores.push(parseInt(this.newScore, 10));
 				this.newScore = null;
 			} else {

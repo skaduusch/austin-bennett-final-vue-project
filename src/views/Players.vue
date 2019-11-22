@@ -56,6 +56,7 @@ export default {
 					id: this.playerId,
 					name: this.playerName,
 					editing: false,
+					scores: [],
 				});
 				// this.playerId = this.$store.getters.playersLength;
 				this.playerName = '';
