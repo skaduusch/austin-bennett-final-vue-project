@@ -4,7 +4,7 @@
 		<ul>
 			<li v-for="(score, index) in scores" :key="index" @click="editScore(index)">{{ score }}</li>
 		</ul>
-		<p class="sum">{{ sumScore }}</p>
+		<p class="sum">Total: {{ sumScore }}</p>
 		<v-text-field
 			type="tel"
 			v-model="newScore"
@@ -48,7 +48,10 @@ export default {
 	},
 	computed: {
 		sumScore() {
-			return this.player.scores.reduce((a, b) => a + b, 0);
+			if (this.player.scores) {
+				return this.player.scores.reduce((a, b) => a + b, 0);
+			}
+			return 0;
 		},
 	},
 };

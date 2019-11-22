@@ -1,8 +1,8 @@
 <template>
 	<div id="app">
 		<v-app>
-			<v-toolbar color="primary">
-				<v-app-bar-nav-icon @click="navDrawer = !navDrawer" class="visible-sm-and-down"></v-app-bar-nav-icon>
+			<v-toolbar color="primary" id="nav-desktop" dark>
+				<v-app-bar-nav-icon @click="navDrawer = !navDrawer" class="d-md-none"></v-app-bar-nav-icon>
 				<v-toolbar-title>Virtual Scorecard</v-toolbar-title>
 				<v-spacer></v-spacer>
 				<v-toolbar-items class="hidden-sm-and-down">
@@ -112,14 +112,16 @@ export default {
 	color: #2c3e50;
 }
 
-#nav {
-	@media (min-width: 996px) {
-		padding: 3rem;
+#nav-desktop {
+	.v-list-item__icon {
+		margin-right: 0.6rem;
 	}
+}
 
+#nav {
 	a {
 		font-weight: bold;
-		color: #2c3e50;
+		color: #42b983;
 		margin-left: 0.875rem;
 		display: flex;
 		&:hover {
@@ -134,6 +136,9 @@ export default {
 			text-align: left;
 		}
 	}
+}
+.v-toolbar__content {
+	height: auto !important;
 }
 header.v-toolbar {
 	flex: 0;
