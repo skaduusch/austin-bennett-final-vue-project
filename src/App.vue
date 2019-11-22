@@ -6,7 +6,12 @@
 				<v-toolbar-title>Virtual Scorecard</v-toolbar-title>
 				<v-spacer></v-spacer>
 				<v-toolbar-items class="hidden-sm-and-down">
-					<router-link v-for="item in navItems" :key="item.title" :to="item.route">
+					<router-link
+						v-for="item in navItems"
+						:key="item.title"
+						:to="item.route"
+						:v-if="item.conditional"
+					>
 						<v-list-item link>
 							<v-list-item-icon>
 								<v-icon>{{ item.icon }}</v-icon>
@@ -31,7 +36,12 @@
 
 				<nav>
 					<v-list dense nav>
-						<router-link v-for="item in navItems" :key="item.title" :to="item.route">
+						<router-link
+							v-for="item in navItems"
+							:key="item.title"
+							:to="item.route"
+							:v-if="item.conditional"
+						>
 							<v-list-item link>
 								<v-list-item-icon>
 									<v-icon>{{ item.icon }}</v-icon>
@@ -54,6 +64,10 @@
 			<transition name="fade" mode="out-in">
 				<router-view />
 			</transition>
+			<v-container>
+				<v-card v-if="!user">There is no User!</v-card>
+				<v-card v-if="user">There is a User!</v-card>
+			</v-container>
 		</v-app>
 	</div>
 </template>
@@ -63,6 +77,14 @@ export default {
 	// created() {
 	// this.$store.dispatch('bindUser');
 	// },
+	/* beforeCreate() {
+		Firebase.auth().onAuthStateChanged((currentUser) => {
+			this.$store.commit('users/setUser', currentUser || false);
+			if (currentUser && this.$route.path === '/signin') {
+				this.$router.replace('/');
+			}
+		});
+	}, */
 	data() {
 		return {
 			navDrawer: false,
@@ -86,11 +108,13 @@ export default {
 					title: 'Sign In',
 					route: '/signin',
 					icon: 'mdi-login',
+					conditional: !!this.user,
 				},
 				{
 					title: 'Sign Up',
 					route: '/signup',
 					icon: 'mdi-account-plus',
+					conditional: '!user',
 				},
 			],
 		};

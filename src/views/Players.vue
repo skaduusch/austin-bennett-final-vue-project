@@ -9,7 +9,7 @@
 						<div class="error-message" v-if="showError">{{ errorMessage }}</div>
 					</transition>
 					<ol class="players-list text-left pa-0">
-						<player :players="players"></player>
+						<player></player>
 					</ol>
 					<v-form @submit.prevent="addPlayer">
 						<v-row>

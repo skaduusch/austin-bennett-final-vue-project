@@ -22,7 +22,6 @@
 // import store from '../store';
 
 export default {
-	props: ['players'],
 	data: () => ({
 		playerName: '',
 	}),
@@ -50,6 +49,11 @@ export default {
 			if (!player.name.trim()) {
 				this.removePlayer(index);
 			}
+		},
+	},
+	computed: {
+		players() {
+			return this.$store.getters.players;
 		},
 	},
 };

@@ -10,9 +10,10 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
 		nextGameId: 2,
-		user: {
+		/* user: {
 			fname: 'Austin',
 			lname: 'Bennett',
+			username: 'skaduusch',
 			players: [
 				{
 					id: 0,
@@ -83,8 +84,8 @@ export default new Vuex.Store({
 					],
 				},
 			],
-		},
-		// user: null,
+		}, */
+		user: null,
 	},
 	mutations: {
 		setStateFromFirestore(user) {
@@ -163,23 +164,18 @@ export default new Vuex.Store({
 		signIn(context, payload) {
 			firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
 				.then(
-					(user) => {
-						console.log('firestore:', firestore);
-						console.log('firestore.collection: ', firestore.collection('users'));
-						console.log('user: ', user);
-						const docRef = firestore.collection('users').doc('austin');
+					(authData) => {
+						console.log('firestore.collection("users"): ', firestore.collection('users'));
+						console.log('authData: ', authData);
+						console.log('user.uid: ', authData.user.uid);
+						const docRef = firestore.collection('users').doc(authData.user.uid);
 						console.log('docRef: ', docRef);
-						docRef.get().then((doc) => {
-							console.log('doc.data(): outside: ', doc.data());
-							if (doc.exists) {
-								console.log('doc.data(): inside: ', doc.data());
-								const newUser = {
-									id: doc.data().user.uid,
-									username: payload.username,
-								};
-								context.commit('setUser', newUser);
+						docRef.get().then((snapshot) => {
+							console.log('snapshot.data(): ', snapshot.data());
+							if (snapshot.exists) {
+								context.commit('setUser', snapshot.data());
 							} else {
-								// doc.data() will be undefined in this case
+								// snapshot.data() will be undefined in this case
 								console.log('No user.uid document!');
 							}
 						}).catch((error) => {

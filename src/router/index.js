@@ -48,6 +48,10 @@ const routes = [
 		name: 'Sign Up',
 		component: SignUp,
 	},
+	{
+		path: '*',
+		redirect: '/',
+	},
 ];
 
 const router = new VueRouter({
