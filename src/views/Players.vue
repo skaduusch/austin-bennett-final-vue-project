@@ -77,6 +77,7 @@ export default {
 				gameName: this.gameName,
 			});
 			this.$router.push(`/games/${this.nextGameId}`);
+			this.$store.commit('incrementGameId');
 		},
 	},
 	computed: {

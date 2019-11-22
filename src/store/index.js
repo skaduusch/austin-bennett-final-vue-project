@@ -121,10 +121,10 @@ export default new Vuex.Store({
 		// });
 		// },
 		bindUserRef: firestoreAction(({ bindFirestoreRef }) => bindFirestoreRef('user', firestore.collection('users').doc('austin'))),
-		newGame(context, payload) {
+		/* newGame(context, payload) {
 			context.commit('newGame', payload);
 			context.commit('incrementGameId');
-		},
+		}, */
 		createUser(context, payload) {
 			firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
 				.then(
