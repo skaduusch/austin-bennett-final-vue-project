@@ -53,7 +53,10 @@ export default {
 	},
 	computed: {
 		players() {
-			return this.$store.getters.players;
+			if (this.$store.getters.user) {
+				return this.$store.getters.players;
+			}
+			return [];
 		},
 	},
 };

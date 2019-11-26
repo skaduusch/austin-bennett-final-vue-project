@@ -3,7 +3,7 @@
 	<v-container class="grey lighten-5">
 		<v-row no-gutters>
 			<v-col cols="12">
-				<h2>Ready for a new game {{ user.username }}?</h2>
+				<h2>Ready for a new game {{ username }}?</h2>
 				<v-card class="pa-4">
 					<transition>
 						<div class="error-message" v-if="showError">{{ errorMessage }}</div>
@@ -82,10 +82,22 @@ export default {
 	},
 	computed: {
 		user() {
-			return this.$store.getters.user;
+			if (this.$store.getters.user) {
+				return this.$store.getters.user;
+			}
+			return null;
+		},
+		username() {
+			if (this.user) {
+				return this.user.username;
+			}
+			return '';
 		},
 		players() {
-			return this.$store.getters.players;
+			if (this.user) {
+				return this.$store.getters.user.players;
+			}
+			return [];
 		},
 		playerId() {
 			if (this.players) {

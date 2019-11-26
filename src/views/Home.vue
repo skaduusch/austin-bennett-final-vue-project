@@ -14,7 +14,10 @@ export default {
 	name: 'home',
 	computed: {
 		user() {
-			return this.$store.getters.user;
+			if (this.$store.getters.user) {
+				return this.$store.getters.user;
+			}
+			return '';
 		},
 	},
 	components: {},

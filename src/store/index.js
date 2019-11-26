@@ -86,6 +86,7 @@ export default new Vuex.Store({
 			],
 		}, */
 		user: null,
+		games: null,
 	},
 	mutations: {
 		setStateFromFirestore(user) {
@@ -107,8 +108,8 @@ export default new Vuex.Store({
 				gamePlayers: payload.players,
 			});
 		},
-		setUser(state, payload) {
-			state.user = payload;
+		setUser(state, userData) {
+			state.user = userData;
 		},
 		// setUser: (state) => { state.user = firebase.auth().currentUser; },
 		...vuexfireMutations,
@@ -121,7 +122,7 @@ export default new Vuex.Store({
 		// context.commit('setStateFromFirestore', doc.data());
 		// });
 		// },
-		bindUserRef: firestoreAction(({ bindFirestoreRef }) => bindFirestoreRef('user', firestore.collection('users').doc('austin'))),
+		bindUserRef: firestoreAction(({ bindFirestoreRef }) => bindFirestoreRef('user', firestore.collection('users').doc(firebase.currentUser.uid))),
 		/* newGame(context, payload) {
 			context.commit('newGame', payload);
 			context.commit('incrementGameId');
@@ -136,11 +137,11 @@ export default new Vuex.Store({
 							console.log('doc.data(): outside: ', doc.data());
 							if (doc.exists) {
 								console.log('doc.data(): inside: ', doc.data());
-								const newUser = {
+								/* const newUser = {
 									id: doc.data().user.uid,
 									username: payload.username,
-								};
-								context.commit('setUser', newUser);
+								}; */
+								// context.commit('setUser', newUser);
 							} else {
 								// doc.data() will be undefined in this case
 								console.log('No user.uid document!');
@@ -173,7 +174,8 @@ export default new Vuex.Store({
 						docRef.get().then((snapshot) => {
 							console.log('snapshot.data(): ', snapshot.data());
 							if (snapshot.exists) {
-								context.commit('setUser', snapshot.data());
+								// context.commit('setUser', snapshot.data());
+								console.log('snapshot exists, user logged in');
 							} else {
 								// snapshot.data() will be undefined in this case
 								console.log('No user.uid document!');
@@ -188,6 +190,14 @@ export default new Vuex.Store({
 						console.log('Error Logging In: ', error);
 					},
 				);
+		},
+		setUser(context, uid) {
+			firestore.collection('users').doc(uid).get().then((doc) => {
+				if (doc.exists) {
+					console.log('doc.data(): ', doc.data());
+					context.commit('setUser', doc.data());
+				}
+			});
 		},
 	},
 	getters: {

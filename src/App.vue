@@ -73,18 +73,21 @@
 </template>
 
 <script>
+import firebase from 'firebase';
+
 export default {
-	// created() {
-	// this.$store.dispatch('bindUser');
-	// },
-	/* beforeCreate() {
-		Firebase.auth().onAuthStateChanged((currentUser) => {
-			this.$store.commit('users/setUser', currentUser || false);
+	/* created() {
+		this.$store.dispatch('bindUser');
+	}, */
+	beforeCreate() {
+		firebase.auth().onAuthStateChanged((currentUser) => {
+			this.$store.dispatch('setUser', currentUser.uid || false);
 			if (currentUser && this.$route.path === '/signin') {
 				this.$router.replace('/');
 			}
+			console.log('currentUser.uid: ', currentUser.uid);
 		});
-	}, */
+	},
 	data() {
 		return {
 			navDrawer: false,
@@ -121,7 +124,10 @@ export default {
 	},
 	computed: {
 		user() {
-			return this.$store.getters.user;
+			if (this.$store.getters.user) {
+				return this.$store.getters.user;
+			}
+			return null;
 		},
 	},
 };
