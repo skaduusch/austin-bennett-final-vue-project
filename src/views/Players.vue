@@ -89,7 +89,7 @@ export default {
 		},
 		username() {
 			if (this.user) {
-				return this.user.username;
+				return this.$store.getters.username;
 			}
 			return '';
 		},
@@ -100,7 +100,7 @@ export default {
 			return [];
 		},
 		playerId() {
-			if (this.players) {
+			if (this.players && this.players.length > 0) {
 				return this.players[this.players.length - 1].id + 1;
 			}
 			return 0;

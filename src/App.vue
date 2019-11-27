@@ -6,21 +6,18 @@
 				<v-toolbar-title>Virtual Scorecard</v-toolbar-title>
 				<v-spacer></v-spacer>
 				<v-toolbar-items class="hidden-sm-and-down">
-					<router-link
-						v-for="item in navItems"
-						:key="item.title"
-						:to="item.route"
-						:v-if="item.conditional"
-					>
-						<v-list-item link>
-							<v-list-item-icon>
-								<v-icon>{{ item.icon }}</v-icon>
-							</v-list-item-icon>
+					<router-link v-for="item in navItems" :key="item.title" :to="item.route">
+						<div v-if="item.conditional">
+							<v-list-item link>
+								<v-list-item-icon>
+									<v-icon>{{ item.icon }}</v-icon>
+								</v-list-item-icon>
 
-							<v-list-item-content>
-								<v-list-item-title>{{ item.title }}</v-list-item-title>
-							</v-list-item-content>
-						</v-list-item>
+								<v-list-item-content>
+									<v-list-item-title>{{ item.title }}</v-list-item-title>
+								</v-list-item-content>
+							</v-list-item>
+						</div>
 					</router-link>
 				</v-toolbar-items>
 			</v-toolbar>
@@ -36,21 +33,18 @@
 
 				<nav>
 					<v-list dense nav>
-						<router-link
-							v-for="item in navItems"
-							:key="item.title"
-							:to="item.route"
-							:v-if="item.conditional"
-						>
-							<v-list-item link>
-								<v-list-item-icon>
-									<v-icon>{{ item.icon }}</v-icon>
-								</v-list-item-icon>
+						<router-link v-for="item in navItems" :key="item.title" :to="item.route">
+							<div v-if="item.conditional">
+								<v-list-item link>
+									<v-list-item-icon>
+										<v-icon>{{ item.icon }}</v-icon>
+									</v-list-item-icon>
 
-								<v-list-item-content>
-									<v-list-item-title>{{ item.title }}</v-list-item-title>
-								</v-list-item-content>
-							</v-list-item>
+									<v-list-item-content>
+										<v-list-item-title>{{ item.title }}</v-list-item-title>
+									</v-list-item-content>
+								</v-list-item>
+							</div>
 						</router-link>
 					</v-list>
 					<!-- <router-link to="/">Home</router-link>
@@ -58,7 +52,7 @@
 					<router-link to="/games">Games</router-link>
 					<router-link to="/signin" v-if="!user">Sign In</router-link>
 					<router-link to="/signup" v-if="!user">Sign Up</router-link>-->
-					<span v-if="user">{{ user.username }}</span>
+					<span v-if="user">{{ username }}</span>
 				</nav>
 			</v-navigation-drawer>
 			<transition name="fade" mode="out-in">
@@ -66,7 +60,7 @@
 			</transition>
 			<v-container>
 				<v-card v-if="!user">There is no User!</v-card>
-				<v-card v-if="user">There is a User!</v-card>
+				<v-card v-if="user">There is a User! {{ user }}</v-card>
 			</v-container>
 		</v-app>
 	</div>
@@ -81,7 +75,10 @@ export default {
 	}, */
 	beforeCreate() {
 		firebase.auth().onAuthStateChanged((currentUser) => {
+			console.log('onAuthStateChange Triggered');
+			console.log('currenUser:', currentUser);
 			this.$store.dispatch('setUser', currentUser.uid || false);
+			this.$store.dispatch('setUsername', currentUser.displayName || '');
 			if (currentUser && this.$route.path === '/signin') {
 				this.$router.replace('/');
 			}
@@ -96,38 +93,42 @@ export default {
 					title: 'Home',
 					route: '/',
 					icon: 'mdi-home',
+					conditional: true,
 				},
 				{
 					title: 'Players',
 					route: '/players',
 					icon: 'mdi-account-group',
+					conditional: this.user !== null,
 				},
 				{
 					title: 'Games',
 					route: '/games',
 					icon: 'mdi-cards-playing-outline',
+					conditional: this.user !== null,
 				},
 				{
 					title: 'Sign In',
 					route: '/signin',
 					icon: 'mdi-login',
-					conditional: !!this.user,
+					conditional: this.user === null,
 				},
 				{
 					title: 'Sign Up',
 					route: '/signup',
 					icon: 'mdi-account-plus',
-					conditional: '!user',
+					conditional: this.user === null,
 				},
+
 			],
 		};
 	},
 	computed: {
 		user() {
-			if (this.$store.getters.user) {
-				return this.$store.getters.user;
-			}
-			return null;
+			return this.$store.getters.user;
+		},
+		username() {
+			return this.$store.getters.username;
 		},
 	},
 };

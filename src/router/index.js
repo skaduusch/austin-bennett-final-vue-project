@@ -6,8 +6,17 @@ import Games from '../views/Games.vue';
 import Game from '../views/Game.vue';
 import SignIn from '../views/SignIn.vue';
 import SignUp from '../views/SignUp.vue';
+import store from '../store';
 
 Vue.use(VueRouter);
+
+function requireAuth(to, from, next) {
+	if (store.getters.user) {
+		next();
+	} else {
+		next('/signin');
+	}
+}
 
 const routes = [
 	{
@@ -27,16 +36,19 @@ const routes = [
 		path: '/players',
 		name: 'players',
 		component: Players,
+		beforeEnter: requireAuth,
 	},
 	{
 		path: '/games',
 		name: 'games',
 		component: Games,
+		beforeEnter: requireAuth,
 	},
 	{
 		path: '/games/:gameId',
 		name: 'game',
 		component: Game,
+		beforeEnter: requireAuth,
 	},
 	{
 		path: '/signIn',

@@ -8,16 +8,18 @@ const admin = require('firebase-admin');
 //  response.send("Hello from Firebase!");
 // });
 
-function addUser(userId, email, username) {
+admin.initializeApp();
+
+function addUser(userId, email) {
+	console.log('setting new user doc:', userId, email);
 	return admin
 		.firestore()
 		.collection('users')
 		.doc(userId)
 		.set({
 			email,
-			username,
 			players: [],
 		});
 }
 
-exports.createUser = functions.auth.user().onCreate(user => addUser(user.uid, user.email, user.username));
+exports.createUser = functions.auth.user().onCreate(user => addUser(user.uid, user.email));

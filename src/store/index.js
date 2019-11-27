@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { vuexfireMutations, firestoreAction } from 'vuexfire';
+// import { vuexfireMutations, firestoreAction } from 'vuexfire';
 import firebase from 'firebase';
 import firestore from '../firebase';
 
@@ -86,7 +86,8 @@ export default new Vuex.Store({
 			],
 		}, */
 		user: null,
-		games: null,
+		username: '',
+		games: [],
 	},
 	mutations: {
 		setStateFromFirestore(user) {
@@ -111,8 +112,11 @@ export default new Vuex.Store({
 		setUser(state, userData) {
 			state.user = userData;
 		},
+		setUsername(state, username) {
+			state.username = username;
+		},
 		// setUser: (state) => { state.user = firebase.auth().currentUser; },
-		...vuexfireMutations,
+		// ...vuexfireMutations,
 	},
 	actions: {
 		// bindUser(context) {
@@ -122,7 +126,7 @@ export default new Vuex.Store({
 		// context.commit('setStateFromFirestore', doc.data());
 		// });
 		// },
-		bindUserRef: firestoreAction(({ bindFirestoreRef }) => bindFirestoreRef('user', firestore.collection('users').doc(firebase.currentUser.uid))),
+		// bindUserRef: firestoreAction(({ bindFirestoreRef }) => bindFirestoreRef('user', firestore.collection('users').doc(firebase.currentUser.uid))),
 		/* newGame(context, payload) {
 			context.commit('newGame', payload);
 			context.commit('incrementGameId');
@@ -130,30 +134,20 @@ export default new Vuex.Store({
 		createUser(context, payload) {
 			firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
 				.then(
-					(user) => {
-						console.log('user', user);
-						const docRef = firestore.collection('users').doc('WWQhnwC6fsWAXtVw3ZJe16Nrcvu2');
-						docRef.get().then((doc) => {
-							console.log('doc.data(): outside: ', doc.data());
-							if (doc.exists) {
-								console.log('doc.data(): inside: ', doc.data());
-								/* const newUser = {
-									id: doc.data().user.uid,
-									username: payload.username,
-								}; */
-								// context.commit('setUser', newUser);
-							} else {
-								// doc.data() will be undefined in this case
-								console.log('No user.uid document!');
-							}
+					(authData) => {
+						authData.user.updateProfile({
+							displayName: payload.username,
+						}).then(() => {
+							context.commit('setUsername', authData.user.displayName);
+							// firestore.collection('users').doc(authData.user.uid).set({ username: authData.user.displayName });
 						}).catch((error) => {
-							console.log('Error getting document:', error);
+							console.log('updateProfile failed: ', error);
 						});
-						/* const newUser = {
-							id: user.uid,
-							username: payload.username,
-						}; */
-						// context.commit('setUser', newUser);
+
+						/* const docRef = firestore.collection('users').doc(authData.user.uid);
+						docRef.onSnapshot((snapshot) => {
+							console.log('createUser().onSnapshot(): ', snapshot.data());
+						}); */
 					},
 				)
 				.catch(
@@ -165,48 +159,44 @@ export default new Vuex.Store({
 		signIn(context, payload) {
 			firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
 				.then(
-					(authData) => {
-						console.log('firestore.collection("users"): ', firestore.collection('users'));
-						console.log('authData: ', authData);
-						console.log('user.uid: ', authData.user.uid);
+					/* (authData) => {
+						context.commit('setUserName', authData.user.displayName);
 						const docRef = firestore.collection('users').doc(authData.user.uid);
-						console.log('docRef: ', docRef);
-						docRef.get().then((snapshot) => {
-							console.log('snapshot.data(): ', snapshot.data());
+						docRef.onSnapshot((snapshot) => {
+							console.log('signIn().onSnapshot(): ', snapshot.data());
 							if (snapshot.exists) {
-								// context.commit('setUser', snapshot.data());
-								console.log('snapshot exists, user logged in');
+								console.log('signIn().onSnapshot() snapshot exists, user logged in');
 							} else {
-								// snapshot.data() will be undefined in this case
-								console.log('No user.uid document!');
+								console.log('signIn().onSnapshot() No user.uid document!');
 							}
-						}).catch((error) => {
-							console.log('Error getting document:', error);
 						});
-					},
+					}, */
 				)
 				.catch(
 					(error) => {
-						console.log('Error Logging In: ', error);
+						console.log('signIn() Error Logging In: ', error);
 					},
 				);
 		},
 		setUser(context, uid) {
-			firestore.collection('users').doc(uid).get().then((doc) => {
-				if (doc.exists) {
-					console.log('doc.data(): ', doc.data());
-					context.commit('setUser', doc.data());
+			firestore.collection('users').doc(uid).onSnapshot((snapshot) => {
+				if (snapshot.exists) {
+					console.log('setUser().onSnapshot(): ', snapshot.data());
+					context.commit('setUser', snapshot.data());
 				}
 			});
+		},
+		setUsername(context, username) {
+			context.commit('setUsername', username);
 		},
 	},
 	getters: {
 		user: state => state.user,
-		players: state => state.user.players,
-		playersLength: state => state.user.players.length,
-		username: state => state.user.username,
-		nextGameId: state => state.nextGameId,
-		games: state => state.user.games,
+		players: state => (state.user ? state.user.players : []),
+		playersLength: state => (state.user ? state.user.players.length : 0),
+		username: state => state.username || '',
+		nextGameId: state => state.nextGameId || 0,
+		games: state => state.games || [],
 		currentGame: state => gameId => state.user.games.find(o => o.gameId === gameId),
 	},
 });
