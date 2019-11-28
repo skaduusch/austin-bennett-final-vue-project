@@ -34,9 +34,10 @@
 </template>
 
 <script>
+import firebase from 'firebase';
 import Player from '../components/Player.vue';
-// import db from '../db';
-// import store from '../store';
+import firestore from '../firebase';
+
 
 export default {
 	data: () => ({
@@ -52,17 +53,35 @@ export default {
 		addPlayer() {
 			this.clearError();
 			if (this.playerName && this.playerName.length > 1) {
-				this.$store.commit('addPlayer', {
+				/* this.$store.commit('addPlayer', {
 					id: this.playerId,
 					name: this.playerName,
 					editing: false,
 					scores: [],
-				});
+				}); */
 				// this.playerId = this.$store.getters.playersLength;
-				this.playerName = '';
-			} else {
-				this.error('A name must be at least 2 characters');
+				console.log('adding user to firestore');
+				console.log('this.playerId:', this.playerId);
+				console.log('this.playerName:', this.playerName);
+				console.log('this.editing:', this.editing);
+				console.log('this.uid:', this.uid);
+				return this.userDocRef.update({
+					players: firebase.firestore.FieldValue.arrayUnion(
+						{
+							id: this.playerId,
+							name: this.playerName,
+							editing: false,
+						},
+					),
+				})
+					.then(() => {
+						this.playerName = '';
+					})
+					.catch((error) => {
+						console.log('error adding player', error);
+					});
 			}
+			return this.error('A name must be at least 2 characters');
 		},
 		error(message) {
 			this.errorMessage = message;
@@ -72,12 +91,24 @@ export default {
 			this.showError = false;
 		},
 		newGame() {
-			this.$store.commit('newGame', {
+			const gamePlayers = this.players.map(obj => ({ ...obj, scores: [] }));
+			this.userDocRef.collection('games').add({
+				gameName: this.gameName,
+				gamePlayers,
+				created: firebase.firestore.Timestamp.now(),
+			})
+				.then((docRef) => {
+					this.userDocRef.collection('games').doc(docRef.id).update({ gameId: docRef.id });
+					this.$router.push(`/games/${docRef.id}`);
+					// this.$store.commit('incrementGameId');
+				})
+				.catch(error => console.log('error adding new game:', error));
+			/* this.$store.commit('newGame', {
 				players: this.players,
 				gameName: this.gameName,
 			});
 			this.$router.push(`/games/${this.nextGameId}`);
-			this.$store.commit('incrementGameId');
+			this.$store.commit('incrementGameId'); */
 		},
 	},
 	computed: {
@@ -107,6 +138,12 @@ export default {
 		},
 		nextGameId() {
 			return this.$store.getters.nextGameId;
+		},
+		uid() {
+			return this.$store.getters.uid;
+		},
+		userDocRef() {
+			return firestore.collection('users').doc(this.uid);
 		},
 	},
 };

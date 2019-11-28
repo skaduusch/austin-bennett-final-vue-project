@@ -19,7 +19,13 @@
 </template>
 
 <script>
-// import store from '../store';
+import firebase from 'firebase';
+import firestore from '../firebase';
+
+console.log('currentUser', firebase.auth().currentUser);
+// console.log('uid', firebase.auth().currentUser.uid);
+
+// const userDocRef = firestore.collection('users').doc(this.$store.getters.uid);
 
 export default {
 	data: () => ({
@@ -27,7 +33,19 @@ export default {
 	}),
 	methods: {
 		removePlayer(index) {
-			this.players.splice(index, 1);
+			// this.players.splice(index, 1);
+			this.$store.dispatch('removePlayer', index);
+			/* console.log('player:', player);
+			const removePlayer = {
+				name: player.name,
+				editing: player.editing,
+				id: player.id,
+				scores: player.scores,
+			};
+			console.log('removePlayer:', removePlayer);
+			this.userDocRef.update({
+				players: firebase.firestore.FieldValue.arrayRemove(removePlayer),
+			}); */
 		},
 		editPlayer(player, index) {
 			this.playerName = player.name;
@@ -41,7 +59,7 @@ export default {
 		doneEdit(player, index) {
 			this.playerName = '';
 			this.players[index].editing = false;
-			this.$store.commit('editPlayer', {
+			this.$store.dispatch('editPlayer', {
 				id: this.playerId,
 				name: this.playerName,
 				editing: false,
@@ -57,6 +75,9 @@ export default {
 				return this.$store.getters.players;
 			}
 			return [];
+		},
+		userDocRef() {
+			return firestore.collection('users').doc(this.$store.getters.uid);
 		},
 	},
 };

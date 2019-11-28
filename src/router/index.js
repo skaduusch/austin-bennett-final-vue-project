@@ -17,6 +17,13 @@ function requireAuth(to, from, next) {
 		next('/signin');
 	}
 }
+function alreadyAuth(to, from, next) {
+	if (store.getters.user) {
+		next('/');
+	} else {
+		next();
+	}
+}
 
 const routes = [
 	{
@@ -54,11 +61,13 @@ const routes = [
 		path: '/signIn',
 		name: 'Sign In',
 		component: SignIn,
+		beforeEnter: alreadyAuth,
 	},
 	{
 		path: '/signUp',
 		name: 'Sign Up',
 		component: SignUp,
+		beforeEnter: alreadyAuth,
 	},
 	{
 		path: '*',

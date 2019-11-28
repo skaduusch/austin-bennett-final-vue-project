@@ -34,7 +34,7 @@
 				<nav>
 					<v-list dense nav>
 						<router-link v-for="item in navItems" :key="item.title" :to="item.route">
-							<div v-if="item.conditional">
+							<div :v-if="item.conditional">
 								<v-list-item link>
 									<v-list-item-icon>
 										<v-icon>{{ item.icon }}</v-icon>
@@ -77,12 +77,15 @@ export default {
 		firebase.auth().onAuthStateChanged((currentUser) => {
 			console.log('onAuthStateChange Triggered');
 			console.log('currenUser:', currentUser);
-			this.$store.dispatch('setUser', currentUser.uid || false);
-			this.$store.dispatch('setUsername', currentUser.displayName || '');
-			if (currentUser && this.$route.path === '/signin') {
-				this.$router.replace('/');
-			}
 			console.log('currentUser.uid: ', currentUser.uid);
+			this.$store.dispatch('bindUserRef');
+			this.$store.dispatch('bindGamesRef');
+			this.$store.dispatch('setUid', currentUser.uid);
+			// this.$store.dispatch('setUser', currentUser.uid || false);
+			// this.$store.dispatch('setUsername', currentUser.displayName || '');
+			/* if (currentUser && this.$route.path === '/signin') {
+				this.$router.replace('/');
+			} */
 		});
 	},
 	data() {
@@ -99,27 +102,26 @@ export default {
 					title: 'Players',
 					route: '/players',
 					icon: 'mdi-account-group',
-					conditional: this.user !== null,
+					conditional: this.authenticated,
 				},
 				{
 					title: 'Games',
 					route: '/games',
 					icon: 'mdi-cards-playing-outline',
-					conditional: this.user !== null,
+					conditional: this.authenticated,
 				},
 				{
 					title: 'Sign In',
 					route: '/signin',
 					icon: 'mdi-login',
-					conditional: this.user === null,
+					conditional: this.authenticated === false,
 				},
 				{
 					title: 'Sign Up',
 					route: '/signup',
 					icon: 'mdi-account-plus',
-					conditional: this.user === null,
+					conditional: !this.authenticated,
 				},
-
 			],
 		};
 	},
@@ -129,6 +131,14 @@ export default {
 		},
 		username() {
 			return this.$store.getters.username;
+		},
+	},
+	methods: {
+		authenticated() {
+			if (this.user) {
+				return true;
+			}
+			return false;
 		},
 	},
 };
