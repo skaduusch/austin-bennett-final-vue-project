@@ -91,7 +91,17 @@ export default {
 	data() {
 		return {
 			navDrawer: false,
-			navItems: [
+		};
+	},
+	computed: {
+		user() {
+			return this.$store.getters.user;
+		},
+		username() {
+			return this.$store.getters.username;
+		},
+		navItems() {
+			return [
 				{
 					title: 'Home',
 					route: '/',
@@ -102,35 +112,27 @@ export default {
 					title: 'Players',
 					route: '/players',
 					icon: 'mdi-account-group',
-					conditional: this.authenticated,
+					conditional: this.authenticated(),
 				},
 				{
 					title: 'Games',
 					route: '/games',
 					icon: 'mdi-cards-playing-outline',
-					conditional: this.authenticated,
+					conditional: this.authenticated(),
 				},
 				{
 					title: 'Sign In',
 					route: '/signin',
 					icon: 'mdi-login',
-					conditional: this.authenticated === false,
+					conditional: this.authenticated() === false,
 				},
 				{
 					title: 'Sign Up',
 					route: '/signup',
 					icon: 'mdi-account-plus',
-					conditional: !this.authenticated,
+					conditional: this.authenticated() === false,
 				},
-			],
-		};
-	},
-	computed: {
-		user() {
-			return this.$store.getters.user;
-		},
-		username() {
-			return this.$store.getters.username;
+			];
 		},
 	},
 	methods: {
