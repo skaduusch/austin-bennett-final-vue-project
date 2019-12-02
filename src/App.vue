@@ -58,10 +58,10 @@
 			<transition name="fade" mode="out-in">
 				<router-view />
 			</transition>
-			<v-container>
+			<!-- <v-container>
 				<v-card v-if="!user">There is no User!</v-card>
 				<v-card v-if="user">There is a User! {{ user }}</v-card>
-			</v-container>
+			</v-container>-->
 		</v-app>
 	</div>
 </template>
