@@ -7,7 +7,7 @@
 						<router-link :to="'/games/' + game.gameId">{{ game.gameName }}</router-link>
 					</v-list-item>
 				</v-list>
-				<v-card>{{ games }}</v-card>
+				<!-- <v-card>{{ games }}</v-card> -->
 				<!-- <router-view></router-view> -->
 			</v-col>
 		</v-row>
