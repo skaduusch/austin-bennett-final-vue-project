@@ -4,7 +4,7 @@
 
 https://austinb-vue-final.netlify.com
 
-# Effectively use conditional logic and JavaScript array methods to render large lists.
+#### Effectively use conditional logic and JavaScript array methods to render large lists.
 
 ```
 Lists rendered on /games and /players, array.map method used in /views/Players.vue on line 94
@@ -22,7 +22,7 @@ Lists rendered on /games and /players, array.map method used in /views/Players.v
 State Managed almost entirely in Vuex store which gets data from Firebase Firestore
 ```
 
-# Present a form for user input that provides useful form validation and feedback.
+#### Present a form for user input that provides useful form validation and feedback.
 
 ```
 signup, signin, player name input, player score input
