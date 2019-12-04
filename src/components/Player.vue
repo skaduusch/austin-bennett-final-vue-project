@@ -33,19 +33,7 @@ export default {
 	}),
 	methods: {
 		removePlayer(index) {
-			// this.players.splice(index, 1);
 			this.$store.dispatch('removePlayer', index);
-			/* console.log('player:', player);
-			const removePlayer = {
-				name: player.name,
-				editing: player.editing,
-				id: player.id,
-				scores: player.scores,
-			};
-			console.log('removePlayer:', removePlayer);
-			this.userDocRef.update({
-				players: firebase.firestore.FieldValue.arrayRemove(removePlayer),
-			}); */
 		},
 		editPlayer(player, index) {
 			this.playerName = player.name;

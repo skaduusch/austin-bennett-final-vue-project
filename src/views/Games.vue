@@ -8,8 +8,6 @@
 					</v-list-item>
 				</v-list>
 				<v-card v-else>You don't have any games</v-card>
-				<!-- <v-card>{{ games }}</v-card> -->
-				<!-- <router-view></router-view> -->
 			</v-col>
 		</v-row>
 	</v-container>

@@ -85,13 +85,14 @@ export default {
 	beforeCreate() {
 		firebase.auth().onAuthStateChanged((currentUser) => {
 			console.log('onAuthStateChange Triggered');
-			console.log('currentUser.uid: ', currentUser.uid);
 			if (currentUser) {
+				console.log('There is a user - currentUser.uid: ', currentUser.uid);
 				this.$store.dispatch('bindUserRef');
 				this.$store.dispatch('bindGamesRef');
 				this.$store.dispatch('setUid', currentUser.uid);
 			} else {
-				this.$store.dispatch('resetState');
+				console.log('resetting state');
+				this.$store.commit('resetState');
 			}
 		});
 	},
