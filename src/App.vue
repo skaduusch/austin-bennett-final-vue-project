@@ -19,6 +19,15 @@
 							</v-list-item>
 						</div>
 					</router-link>
+					<a href="#" v-if="userAuthenticated" @click.prevent="signOut">
+						<v-list-item link>
+							<v-list-item-icon>
+								<v-icon>mdi-login</v-icon>
+							</v-list-item-icon>
+
+							<v-list-item-content>Sign Out</v-list-item-content>
+						</v-list-item>
+					</a>
 				</v-toolbar-items>
 			</v-toolbar>
 			<v-navigation-drawer id="nav" v-model="navDrawer" app floating>
@@ -76,16 +85,14 @@ export default {
 	beforeCreate() {
 		firebase.auth().onAuthStateChanged((currentUser) => {
 			console.log('onAuthStateChange Triggered');
-			console.log('currenUser:', currentUser);
 			console.log('currentUser.uid: ', currentUser.uid);
-			this.$store.dispatch('bindUserRef');
-			this.$store.dispatch('bindGamesRef');
-			this.$store.dispatch('setUid', currentUser.uid);
-			// this.$store.dispatch('setUser', currentUser.uid || false);
-			// this.$store.dispatch('setUsername', currentUser.displayName || '');
-			/* if (currentUser && this.$route.path === '/signin') {
-				this.$router.replace('/');
-			} */
+			if (currentUser) {
+				this.$store.dispatch('bindUserRef');
+				this.$store.dispatch('bindGamesRef');
+				this.$store.dispatch('setUid', currentUser.uid);
+			} else {
+				this.$store.dispatch('resetState');
+			}
 		});
 	},
 	data() {
@@ -134,6 +141,9 @@ export default {
 				},
 			];
 		},
+		userAuthenticated() {
+			return this.authenticated();
+		},
 	},
 	methods: {
 		authenticated() {
@@ -141,6 +151,9 @@ export default {
 				return true;
 			}
 			return false;
+		},
+		signOut() {
+			this.$store.dispatch('signOut');
 		},
 	},
 };

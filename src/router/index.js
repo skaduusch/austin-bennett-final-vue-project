@@ -10,13 +10,13 @@ import store from '../store';
 
 Vue.use(VueRouter);
 
-function requireAuth(to, from, next) {
+/* function requireAuth(to, from, next) {
 	if (store.getters.user) {
 		next();
 	} else {
 		next('/signin');
 	}
-}
+} */
 function alreadyAuth(to, from, next) {
 	if (store.getters.user) {
 		next('/');
@@ -43,19 +43,19 @@ const routes = [
 		path: '/players',
 		name: 'players',
 		component: Players,
-		beforeEnter: requireAuth,
+		// beforeEnter: requireAuth,
 	},
 	{
 		path: '/games',
 		name: 'games',
 		component: Games,
-		beforeEnter: requireAuth,
+		// beforeEnter: requireAuth,
 	},
 	{
 		path: '/games/:gameId',
 		name: 'game',
 		component: Game,
-		beforeEnter: requireAuth,
+		// beforeEnter: requireAuth,
 	},
 	{
 		path: '/signIn',

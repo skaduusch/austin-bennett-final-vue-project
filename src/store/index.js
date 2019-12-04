@@ -58,27 +58,22 @@ export default new Vuex.Store({
 		setUsername(state, username) {
 			state.username = username;
 		},
+		signOut() {
+			firebase.auth().signOut();
+		},
+		resetState(state) {
+			state.user = null;
+			state.username = '';
+			state.games = {};
+			state.uid = '';
+		},
 		// setUser: (state) => { state.user = firebase.auth().currentUser; },
 		...vuexfireMutations,
 	},
 	actions: {
-		// bindUser(context) {
-		// db.collection('users').doc('austin')
-		// .onSnapshot((doc) => {
-		// console.log('doc.data(): ', doc.data());
-		// context.commit('setStateFromFirestore', doc.data());
-		// });
-		// },
 		bindUserRef: firestoreAction(({ bindFirestoreRef }) => bindFirestoreRef('user', firestore.collection('users').doc(firebase.auth().currentUser.uid))),
 		bindGamesRef: firestoreAction(({ bindFirestoreRef }) => bindFirestoreRef('games', firestore.collection('users').doc(firebase.auth().currentUser.uid).collection('games').orderBy('created', 'desc'))),
-		/* newGame(context, payload) {
-			context.commit('newGame', payload);
-			context.commit('incrementGameId');
-		}, */
-		/* vuexfireBindUser() {
-			console.log('vuexfireBindUser uid:', firebase.auth().currentUser.uid);
-			firestoreAction(({ bindFirestoreRef }) => bindFirestoreRef('user', firestore.collection('users').doc(firebase.auth().currentUser.uid)));
-		}, */
+
 		createUser(context, payload) {
 			firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
 				.then(
@@ -145,6 +140,9 @@ export default new Vuex.Store({
 		},
 		removePlayer(context, player, index) {
 			context.commit('removePlayer', player, index);
+		},
+		signOut(context) {
+			context.commit('signOut');
 		},
 	},
 	getters: {
