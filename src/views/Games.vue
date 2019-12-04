@@ -2,11 +2,12 @@
 	<v-container>
 		<v-row>
 			<v-col>
-				<v-list>
+				<v-list v-if="games.length > 0">
 					<v-list-item v-for="game in games" :key="game.gameId">
 						<router-link :to="'/games/' + game.gameId">{{ game.gameName }}</router-link>
 					</v-list-item>
 				</v-list>
+				<v-card v-else>You don't have any games</v-card>
 				<!-- <v-card>{{ games }}</v-card> -->
 				<!-- <router-view></router-view> -->
 			</v-col>
