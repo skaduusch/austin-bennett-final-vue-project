@@ -36,12 +36,25 @@ export default {
 	methods: {
 		addScore() {
 			const numScore = parseInt(this.newScore, 10);
-			if (numScore && numRegex.test(this.newScore)) {
+			/* if (numScore && numRegex.test(this.newScore)) {
 				this.scores.push(parseInt(this.newScore, 10));
 				this.newScore = null;
 			} else {
 				console.log('numScore is not');
-			}
+			} */
+			const gamePlayers = this.players.map(obj => ({ ...obj, scores: [] }));
+			this.userDocRef.collection('games').add({
+				gameName: this.gameName,
+				gamePlayers,
+				created: firebase.firestore.Timestamp.now(),
+			})
+				.then((docRef) => {
+					this.userDocRef.collection('games').doc(docRef.id).update({ gameId: docRef.id });
+					this.$router.push(`/games/${docRef.id}`);
+					// this.$store.commit('incrementGameId');
+				})
+				.catch(error => console.log('error adding new game:', error));
+
 		},
 		editScore(index) {
 			console.log(index);
@@ -54,6 +67,16 @@ export default {
 			}
 			return 0;
 		},
+		gameId() {
+			this.$route.params.gameId;
+		},
+		uid() {
+			return this.$store.getters.uid;
+		},
+		userDocRef() {
+			return firestore.collection('users').doc(this.uid);
+		},
+
 	},
 };
 </script>
