@@ -1,4 +1,4 @@
-# austin-bennett-final-vue-project
+# Austin Bennett Final Vue Project
 
 ## Netlify URL
 
@@ -7,10 +7,12 @@ https://austinb-vue-final.netlify.com
 #### Effectively use conditional logic and JavaScript array methods to render large lists.
 
 ```
-Lists rendered on /games and /players, array.map method used in /views/Players.vue on line 94
+Lists rendered on https://austinb-vue-final.netlify.com/games [github](https://github.com/skaduusch/austin-bennett-final-vue-project/blob/master/src/views/Games.vue) and https://austinb-vue-final.netlify.com/players [github](https://github.com/skaduusch/austin-bennett-final-vue-project/blob/master/src/views/Players.vue), array.map method used in /views/Players.vue [github](https://github.com/skaduusch/austin-bennett-final-vue-project/blob/master/src/views/Players.vue) on line 94
 ```
 
 #### Encapsulate your code as VueJS single-file components.
+
+https://github.com/skaduusch/austin-bennett-final-vue-project/tree/master/src
 
 #### Work with the Vue-CLI to create and manage your project within a real development toolset.
 
@@ -20,6 +22,7 @@ Lists rendered on /games and /players, array.map method used in /views/Players.v
 
 ```
 State Managed almost entirely in Vuex store which gets data from Firebase Firestore
+
 ```
 
 #### Present a form for user input that provides useful form validation and feedback.

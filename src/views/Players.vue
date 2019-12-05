@@ -30,12 +30,16 @@
 				<v-btn class="primary" @click="newGame">Start A New Game With These Players</v-btn>
 			</v-col>
 		</v-row>
+		<v-row>
+			<random-players></random-players>
+		</v-row>
 	</v-container>
 </template>
 
 <script>
 import firebase from 'firebase';
 import Player from '../components/Player.vue';
+import RandomPlayers from '../components/RandomPlayers.vue';
 import firestore from '../firebase';
 
 
@@ -48,6 +52,7 @@ export default {
 	}),
 	components: {
 		Player,
+		RandomPlayers,
 	},
 	methods: {
 		addPlayer() {
@@ -153,7 +158,7 @@ export default {
 .players-list {
 	list-style: none;
 	padding: 0;
-	& > :nth-child(even) {
+	& .player-name:nth-child(even) {
 		background-color: #eee;
 	}
 }

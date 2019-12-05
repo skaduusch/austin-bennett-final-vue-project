@@ -90,6 +90,7 @@ export default {
 				this.$store.dispatch('bindUserRef');
 				this.$store.dispatch('bindGamesRef');
 				this.$store.dispatch('setUid', currentUser.uid);
+				this.$store.dispatch('setUsername', currentUser.displayName);
 			} else {
 				console.log('resetting state');
 				this.$store.commit('resetState');
