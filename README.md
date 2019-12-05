@@ -30,7 +30,10 @@ Props used in this component https://github.com/skaduusch/austin-bennett-final-v
 #### Present a form for user input that provides useful form validation and feedback.
 
 ```
-signup, signin, player name input, player score input
+https://austinb-vue-final.netlify.com/signup,
+https://austinb-vue-final.netlify.com/signin,
+https://austinb-vue-final.netlify.com/players name input (at least 2 characters),
+https://austinb-vue-final.netlify.com/games/:gameId score input (must be a number)
 ```
 
 #### Create a custom directive and use it on at least one of your components.
@@ -51,7 +54,11 @@ Axios used in /components/RandomPlayers.vue [github](https://github.com/skaduusc
 #### Provide at least 3 different routes with navigation between them using vue-router.
 
 ```
-Home, Players, Games, SignIn, SignUp
+https://austinb-vue-final.netlify.com/home,
+https://austinb-vue-final.netlify.com/players,
+https://austinb-vue-final.netlify.com/games,
+https://austinb-vue-final.netlify.com/signIn,
+https://austinb-vue-final.netlify.com/signUp
 ```
 
 #### Manage your application's state using vuex.

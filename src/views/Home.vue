@@ -27,7 +27,7 @@ export default {
 			if (this.user) {
 				this.$router.push('/players');
 			} else {
-				this.$router.push('/signin');
+				this.$router.push('/signup');
 			}
 		},
 	},
