@@ -38,16 +38,34 @@ signup, signin, player name input, player score input
 #### Use a mix of animations and transitions to enhance some aspects of your project.
 
 ```
-Routes transition as a transition-group
+Routes transition
+
 ```
 
 #### Connect to a server using HTTP and display retrieved data (use vue-resource or Axios).
 
+```
+Axios used in /components/RandomPlayers.vue [github](https://github.com/skaduusch/austin-bennett-final-vue-project/blob/master/src/components/RandomPlayers.vue) on line 48
+```
+
 #### Provide at least 3 different routes with navigation between them using vue-router.
+
+```
+Home, Players, Games, SignIn, SignUp
+```
 
 #### Manage your application's state using vuex.
 
+```
+https://github.com/skaduusch/austin-bennett-final-vue-project/blob/master/src/store/index.js
+```
+
 #### Structure, document, and deploy your final project code according to common industry practices.
+
+```
+https://austinb-vue-final.netlify.com
+https://github.com/skaduusch/austin-bennett-final-vue-project
+```
 
 ## Project setup
 

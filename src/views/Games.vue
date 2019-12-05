@@ -2,8 +2,8 @@
 	<v-container>
 		<v-row>
 			<v-col>
-				<v-list v-if="games.length > 0">
-					<v-list-item v-for="game in games" :key="game.gameId">
+				<v-list v-if="games.length > 0" class="games-list">
+					<v-list-item v-for="game in games" :key="game.gameId" class="game">
 						<router-link :to="'/games/' + game.gameId">{{ game.gameName }}</router-link>
 					</v-list-item>
 				</v-list>
@@ -23,6 +23,10 @@ export default {
 };
 </script>
 
-<style>
-
+<style scoped lang="scss">
+.games-list {
+	.game:nth-child(even) {
+		background-color: #eee;
+	}
+}
 </style>

@@ -67,10 +67,6 @@
 			<transition name="fade" mode="out-in">
 				<router-view />
 			</transition>
-			<!-- <v-container>
-				<v-card v-if="!user">There is no User!</v-card>
-				<v-card v-if="user">There is a User! {{ user }}</v-card>
-			</v-container>-->
 		</v-app>
 	</div>
 </template>
@@ -79,20 +75,16 @@
 import firebase from 'firebase';
 
 export default {
-	/* created() {
-		this.$store.dispatch('bindUser');
-	}, */
+	/* Set a listener to update the state whenever the firebase authState changes */
 	beforeCreate() {
 		firebase.auth().onAuthStateChanged((currentUser) => {
-			console.log('onAuthStateChange Triggered');
+			// console.log('onAuthStateChange Triggered');
 			if (currentUser) {
-				console.log('There is a user - currentUser.uid: ', currentUser.uid);
 				this.$store.dispatch('bindUserRef');
 				this.$store.dispatch('bindGamesRef');
 				this.$store.dispatch('setUid', currentUser.uid);
 				this.$store.dispatch('setUsername', currentUser.displayName);
 			} else {
-				console.log('resetting state');
 				this.$store.commit('resetState');
 			}
 		});
@@ -143,6 +135,7 @@ export default {
 				},
 			];
 		},
+		/* Check if the user is authenticated to display the correct navigation items */
 		userAuthenticated() {
 			return this.authenticated();
 		},
@@ -174,6 +167,17 @@ export default {
 	.v-list-item__icon {
 		margin-right: 0.6rem;
 	}
+	a {
+		&:hover {
+			text-decoration: none;
+		}
+
+		&.router-link-exact-active,
+		&.router-link-exact-active .v-list-item__icon i,
+		&.router-link-exact-active .v-list-item__title {
+			color: #333 !important;
+		}
+	}
 }
 
 #nav {
@@ -195,6 +199,7 @@ export default {
 		}
 	}
 }
+
 .v-toolbar__content {
 	height: auto !important;
 }

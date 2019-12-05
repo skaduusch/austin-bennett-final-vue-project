@@ -1,7 +1,6 @@
 <template>
-	<div class="random-players">
+	<div class="random-players mt-8">
 		<h2>Here are some random player names to get you started. Click a name to add it to your list</h2>
-		<!-- <v-card>{{ names }}</v-card> -->
 		<v-row>
 			<v-col cols="12" sm="6" md="4" lg="3" v-for="name in names" :key="name">
 				<v-card link @click="addName(name)">
@@ -55,6 +54,11 @@ export default {
 				console.error(error);
 			});
 	},
+	/* created() {
+		firebase.auth().user.updateProfile({
+			displayName: 'Skaduusch',
+		}).then().catch();
+	}, */
 	methods: {
 		addName(name) {
 			return this.userDocRef.update({
@@ -74,4 +78,5 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+</style>

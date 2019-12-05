@@ -3,7 +3,6 @@
 		<v-row>
 			<v-col>
 				<router-view></router-view>
-				<h1>This is the Game Component</h1>
 				<h2>{{ gameName }}</h2>
 				<game-scores :game="game"></game-scores>
 			</v-col>

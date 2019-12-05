@@ -1,11 +1,11 @@
 
 <template>
-	<v-container class="grey lighten-5">
-		<v-row no-gutters>
+	<v-container class="grey lighten-5 mt-6">
+		<v-row>
 			<v-col cols="12">
 				<h2>Ready for a new game {{ username }}?</h2>
 				<v-card class="pa-4">
-					<transition>
+					<transition name="fade">
 						<div class="error-message" v-if="showError">{{ errorMessage }}</div>
 					</transition>
 					<ol class="players-list text-left pa-0">
@@ -55,21 +55,10 @@ export default {
 		RandomPlayers,
 	},
 	methods: {
+		/* Add a new player to the list, this is done directly to the firestore */
 		addPlayer() {
 			this.clearError();
 			if (this.playerName && this.playerName.length > 1) {
-				/* this.$store.commit('addPlayer', {
-					id: this.playerId,
-					name: this.playerName,
-					editing: false,
-					scores: [],
-				}); */
-				// this.playerId = this.$store.getters.playersLength;
-				console.log('adding user to firestore');
-				console.log('this.playerId:', this.playerId);
-				console.log('this.playerName:', this.playerName);
-				console.log('this.editing:', this.editing);
-				console.log('this.uid:', this.uid);
 				return this.userDocRef.update({
 					players: firebase.firestore.FieldValue.arrayUnion(
 						{
@@ -95,6 +84,7 @@ export default {
 		clearError() {
 			this.showError = false;
 		},
+		/* Start a new game with the current list of players, this is created directly on the firestore */
 		newGame() {
 			const gamePlayers = this.players.map(obj => ({ ...obj, scores: [] }));
 			this.userDocRef.collection('games').add({
@@ -105,15 +95,8 @@ export default {
 				.then((docRef) => {
 					this.userDocRef.collection('games').doc(docRef.id).update({ gameId: docRef.id });
 					this.$router.push(`/games/${docRef.id}`);
-					// this.$store.commit('incrementGameId');
 				})
 				.catch(error => console.log('error adding new game:', error));
-			/* this.$store.commit('newGame', {
-				players: this.players,
-				gameName: this.gameName,
-			});
-			this.$router.push(`/games/${this.nextGameId}`);
-			this.$store.commit('incrementGameId'); */
 		},
 	},
 	computed: {

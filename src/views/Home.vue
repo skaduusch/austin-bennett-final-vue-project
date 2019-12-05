@@ -1,5 +1,5 @@
 <template>
-	<div class="home">
+	<div class="home pa-6">
 		<h1>Welcome to Digital Scorecard {{ username }}!</h1>
 		<h3>Here you can track scores for card games, or any other kind of game.</h3>
 		<v-btn class="primary mt-4" @click="getStarted">Get Started</v-btn>
