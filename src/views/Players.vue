@@ -131,7 +131,7 @@ export default {
 		},
 		players() {
 			if (this.user) {
-				return this.$store.getters.user.players;
+				return this.$store.getters.players;
 			}
 			return [];
 		},

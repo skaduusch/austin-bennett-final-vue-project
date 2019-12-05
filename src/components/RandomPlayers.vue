@@ -32,14 +32,14 @@ export default {
 			return firestore.collection('users').doc(this.uid);
 		},
 		players() {
-			if (this.user) {
-				return this.$store.getters.user.players;
-			}
-			return [];
+			return this.$store.getters.players;
+		},
+		playersLength() {
+			return this.$store.getters.playersLength;
 		},
 		playerId() {
-			if (this.players && this.players.length > 0) {
-				return this.players[this.players.length - 1].id + 1;
+			if (this.playersLength > 0) {
+				return this.players[this.playersLength - 1].id + 1;
 			}
 			return 0;
 		},
@@ -48,8 +48,6 @@ export default {
 		axios
 			.get(this.nameGenUrl)
 			.then((data) => {
-				console.log('data:', data.data);
-				console.log('mappedArray,', data.data.map(obj => obj.name));
 				const mappedArray = data.data.map(obj => obj.name);
 				this.names = mappedArray;
 			})

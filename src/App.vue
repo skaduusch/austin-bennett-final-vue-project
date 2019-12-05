@@ -201,11 +201,11 @@ export default {
 header.v-toolbar {
 	flex: 0;
 }
+
 .fade-leave-active {
 	transition: opacity 0.1s ease;
 	opacity: 0;
 }
-
 .fade-leave {
 	opacity: 1;
 	transform: translateX(0);
@@ -215,5 +215,8 @@ header.v-toolbar {
 }
 .fade-enter-active {
 	transition: opacity 0.1s ease;
+}
+.fade-move {
+	transition: transform 1s;
 }
 </style>

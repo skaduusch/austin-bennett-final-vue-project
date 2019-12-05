@@ -1,5 +1,5 @@
 <template>
-	<transition-group>
+	<div>
 		<li v-for="(player, index) in players" :key="player.id" class="player-name pa-3">
 			<span v-if="player.editing === false">{{ player.name }}</span>
 			<v-text-field
@@ -15,7 +15,7 @@
 				<span class="remove-player" @click="removePlayer(index)">Remove</span>
 			</div>
 		</li>
-	</transition-group>
+	</div>
 </template>
 
 <script>

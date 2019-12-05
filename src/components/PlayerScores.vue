@@ -42,8 +42,6 @@ export default {
 			if (numScore && numRegex.test(this.newScore)) {
 				this.scores.push(parseInt(this.newScore, 10));
 				this.newScore = null;
-			} else {
-				console.log('numScore is not');
 			}
 		},
 		editScore(index) {

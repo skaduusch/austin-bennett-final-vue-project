@@ -7,7 +7,9 @@ https://austinb-vue-final.netlify.com
 #### Effectively use conditional logic and JavaScript array methods to render large lists.
 
 ```
-Lists rendered on https://austinb-vue-final.netlify.com/games [github](https://github.com/skaduusch/austin-bennett-final-vue-project/blob/master/src/views/Games.vue) and https://austinb-vue-final.netlify.com/players [github](https://github.com/skaduusch/austin-bennett-final-vue-project/blob/master/src/views/Players.vue), array.map method used in /views/Players.vue [github](https://github.com/skaduusch/austin-bennett-final-vue-project/blob/master/src/views/Players.vue) on line 94
+array.map method used in /views/Players.vue [github](https://github.com/skaduusch/austin-bennett-final-vue-project/blob/master/src/views/Players.vue) on line 94
+array.map used in /components/RandomPlayers.vue [github](https://github.com/skaduusch/austin-bennett-final-vue-project/blob/master/src/components/RandomPlayers.vue) on line 51
+array.reduce used in /components/PlayerScores.vue [github](https://github.com/skaduusch/austin-bennett-final-vue-project/blob/master/src/components/PlayerScores.vue) on line 54
 ```
 
 #### Encapsulate your code as VueJS single-file components.
@@ -22,7 +24,7 @@ https://github.com/skaduusch/austin-bennett-final-vue-project/tree/master/src
 
 ```
 State Managed almost entirely in Vuex store which gets data from Firebase Firestore
-
+Props used in this component https://github.com/skaduusch/austin-bennett-final-vue-project/blob/master/src/components/GameScores.vue
 ```
 
 #### Present a form for user input that provides useful form validation and feedback.
