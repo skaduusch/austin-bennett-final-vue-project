@@ -18,10 +18,12 @@ import playerScores from './PlayerScores.vue';
 export default {
 	props: ['game'],
 	data() {
-		return {
-			gameId: this.$route.params.gameId,
-			players: this.game.gamePlayers,
-		};
+		return {};
+	},
+	computed: {
+		players() {
+			return this.game.gamePlayers;
+		},
 	},
 	components: {
 		playerScores,

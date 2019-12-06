@@ -17,7 +17,7 @@
 								<v-text-field class="player-input" v-model="playerName" label="Player Name"></v-text-field>
 							</v-col>
 							<v-col cols="12" sm="3" class="d-flex align-center">
-								<v-btn type="submit" block class="my-1 primary">Add Player</v-btn>
+								<v-btn type="submit" block class="my-1 white--text" v-mainColor="mainColor">Add Player</v-btn>
 							</v-col>
 						</v-row>
 					</v-form>
@@ -27,7 +27,11 @@
 		<v-row>
 			<v-col>
 				<v-text-field class="game-name-input" v-model="gameName" label="Game Name"></v-text-field>
-				<v-btn class="primary" @click="newGame">Start A New Game With These Players</v-btn>
+				<v-btn
+					v-mainColor="mainColor"
+					class="white--text"
+					@click="newGame"
+				>Start A New Game With These Players</v-btn>
 			</v-col>
 		</v-row>
 		<v-row>
@@ -132,6 +136,9 @@ export default {
 		},
 		userDocRef() {
 			return firestore.collection('users').doc(this.uid);
+		},
+		mainColor() {
+			return this.$store.getters.mainColor;
 		},
 	},
 };

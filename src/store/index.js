@@ -12,8 +12,9 @@ export default new Vuex.Store({
 		nextGameId: 2,
 		user: null,
 		username: '',
-		games: {},
+		games: [],
 		uid: '',
+		mainColor: '#1976d2',
 	},
 	mutations: {
 		/* setStateFromFirestore(user) {
@@ -67,6 +68,9 @@ export default new Vuex.Store({
 			state.games = {};
 			state.uid = '';
 		},
+		setColor(state, color) {
+			state.mainColor = color;
+		},
 		// setUser: (state) => { state.user = firebase.auth().currentUser; },
 		...vuexfireMutations,
 	},
@@ -101,34 +105,13 @@ export default new Vuex.Store({
 		},
 		signIn(context, payload) {
 			firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
-				.then(
-					/* (authData) => {
-						context.commit('setUserName', authData.user.displayName);
-						const docRef = firestore.collection('users').doc(authData.user.uid);
-						docRef.onSnapshot((snapshot) => {
-							console.log('signIn().onSnapshot(): ', snapshot.data());
-							if (snapshot.exists) {
-								console.log('signIn().onSnapshot() snapshot exists, user logged in');
-							} else {
-								console.log('signIn().onSnapshot() No user.uid document!');
-							}
-						});
-					}, */
-				)
+				.then()
 				.catch(
 					(error) => {
 						console.log('signIn() Error Logging In: ', error);
 					},
 				);
 		},
-		/* setUser(context, uid) {
-			firestore.collection('users').doc(uid).onSnapshot((snapshot) => {
-				if (snapshot.exists) {
-					console.log('setUser().onSnapshot(): ', snapshot.data());
-					context.commit('setUser', snapshot.data());
-				}
-			});
-		}, */
 		setUid(context, uid) {
 			context.commit('setUid', uid);
 		},
@@ -144,6 +127,9 @@ export default new Vuex.Store({
 		signOut(context) {
 			context.commit('signOut');
 		},
+		setColor(context, color) {
+			context.commit('setColor', color);
+		},
 	},
 	getters: {
 		user: state => state.user,
@@ -154,5 +140,6 @@ export default new Vuex.Store({
 		nextGameId: state => state.nextGameId || 0,
 		games: state => state.games || [],
 		currentGame: state => gameId => state.games.find(o => o.gameId === gameId),
+		mainColor: state => state.mainColor,
 	},
 });

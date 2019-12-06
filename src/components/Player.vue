@@ -11,8 +11,8 @@
 			<v-btn @click="doneEdit(player, index)" v-if="player.editing === true" class="green">Finish</v-btn>
 			<v-btn @click="cancelEdit(index)" v-if="player.editing === true" class="secondary ml-3">Cancel</v-btn>
 			<div class="player-control">
-				<span class="edit-player" @click="editPlayer(player, index)">Edit</span>
-				<span class="remove-player" @click="removePlayer(index)">Remove</span>
+				<span class="edit-player" @click="editPlayer(player, index)" v-mainColor:text="mainColor">Edit</span>
+				<span class="remove-player" @click="removePlayer(index)" v-mainColor:text="mainColor">Remove</span>
 			</div>
 		</li>
 	</div>
@@ -66,6 +66,9 @@ export default {
 		},
 		userDocRef() {
 			return firestore.collection('users').doc(this.$store.getters.uid);
+		},
+		mainColor() {
+			return this.$store.getters.mainColor;
 		},
 	},
 };

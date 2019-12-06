@@ -2,7 +2,13 @@
 	<div class="player">
 		<h3>{{ name }}</h3>
 		<ul>
-			<li v-for="(score, index) in scores" :key="index" @click="editScore(index)">{{ score }}</li>
+			<li
+				class="round-score"
+				v-for="(score, index) in scores"
+				:key="index"
+				@click="editScore(index)"
+				v-flash
+			>{{ score }}</li>
 		</ul>
 		<p class="sum">Total: {{ sumScore }}</p>
 		<v-text-field
@@ -82,5 +88,8 @@ export default {
 }
 .sum {
 	font-weight: 900;
+}
+.round-score {
+	transition: background-color 0.5s;
 }
 </style>

@@ -1,18 +1,17 @@
 <template>
 	<div id="app">
 		<v-app>
-			<v-toolbar color="primary" id="nav-desktop" dark>
+			<v-toolbar id="nav-desktop" v-mainColor="mainColor" dark>
 				<v-app-bar-nav-icon @click="navDrawer = !navDrawer" class="d-md-none"></v-app-bar-nav-icon>
 				<v-toolbar-title>Virtual Scorecard</v-toolbar-title>
 				<v-spacer></v-spacer>
 				<v-toolbar-items class="hidden-sm-and-down">
 					<router-link v-for="item in navItems" :key="item.title" :to="item.route">
-						<div v-if="item.conditional">
+						<div v-if="item.conditional" class="menu-link">
 							<v-list-item link>
 								<v-list-item-icon>
 									<v-icon>{{ item.icon }}</v-icon>
 								</v-list-item-icon>
-
 								<v-list-item-content>
 									<v-list-item-title>{{ item.title }}</v-list-item-title>
 								</v-list-item-content>
@@ -24,8 +23,9 @@
 							<v-list-item-icon>
 								<v-icon>mdi-login</v-icon>
 							</v-list-item-icon>
-
-							<v-list-item-content>Sign Out</v-list-item-content>
+							<v-list-item-content>
+								<v-list-item-title>Sign Out</v-list-item-title>
+							</v-list-item-content>
 						</v-list-item>
 					</a>
 				</v-toolbar-items>
@@ -43,18 +43,29 @@
 				<nav>
 					<v-list dense nav>
 						<router-link v-for="item in navItems" :key="item.title" :to="item.route">
-							<div :v-if="item.conditional">
+							<div v-if="item.conditional" class="menu-link">
 								<v-list-item link>
 									<v-list-item-icon>
 										<v-icon>{{ item.icon }}</v-icon>
 									</v-list-item-icon>
-
 									<v-list-item-content>
 										<v-list-item-title>{{ item.title }}</v-list-item-title>
 									</v-list-item-content>
 								</v-list-item>
 							</div>
 						</router-link>
+						<a href="#" v-if="userAuthenticated" @click.prevent="signOut">
+							<div class="menu-link">
+								<v-list-item link>
+									<v-list-item-icon>
+										<v-icon>mdi-login</v-icon>
+									</v-list-item-icon>
+									<v-list-item-content>
+										<v-list-item-title>Sign Out</v-list-item-title>
+									</v-list-item-content>
+								</v-list-item>
+							</div>
+						</a>
 					</v-list>
 					<!-- <router-link to="/">Home</router-link>
 					<router-link to="/players">Players</router-link>
@@ -139,6 +150,9 @@ export default {
 		userAuthenticated() {
 			return this.authenticated();
 		},
+		mainColor() {
+			return this.$store.getters.mainColor;
+		},
 	},
 	methods: {
 		authenticated() {
@@ -181,20 +195,16 @@ export default {
 
 #nav {
 	a {
-		font-weight: bold;
-		color: #42b983;
-		margin-left: 0.875rem;
-		display: flex;
 		&:hover {
 			text-decoration: none;
 		}
-
 		&.router-link-exact-active,
 		&.router-link-exact-active .v-list-item__icon i {
 			color: #42b983;
 		}
 		.v-list-item__title {
 			text-align: left;
+			font-weight: bold;
 		}
 	}
 }

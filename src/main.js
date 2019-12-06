@@ -9,6 +9,22 @@ import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false;
 // Vue.use(vuexfire);
+Vue.directive('mainColor', {
+	bind(el, binding) {
+		if (binding.arg === 'text') {
+			el.style.color = binding.value; // eslint-disable-line
+		} else {
+			el.style.backgroundColor = binding.value; // eslint-disable-line
+		}
+	},
+	update(el, binding) {
+		if (binding.arg === 'text') {
+			el.style.color = binding.value; // eslint-disable-line
+		} else {
+			el.style.backgroundColor = binding.value; // eslint-disable-line
+		}
+	},
+});
 
 new Vue({
 	router,
