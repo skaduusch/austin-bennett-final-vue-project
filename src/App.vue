@@ -173,8 +173,7 @@ export default {
 		}
 
 		&.router-link-exact-active,
-		&.router-link-exact-active .v-list-item__icon i,
-		&.router-link-exact-active .v-list-item__title {
+		&.router-link-exact-active .v-list-item__icon i {
 			color: #333 !important;
 		}
 	}
