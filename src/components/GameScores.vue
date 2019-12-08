@@ -3,7 +3,7 @@
 		<v-row>
 			<v-col>
 				<div class="game-players-list d-flex flex-wrap">
-					<v-card class="game-player mb-3" v-for="player in players" :key="player.name">
+					<v-card class="game-player mb-6" v-for="player in gamePlayers" :key="player.name">
 						<player-scores :player="player"></player-scores>
 					</v-card>
 				</div>
@@ -17,12 +17,12 @@ import playerScores from './PlayerScores.vue';
 
 export default {
 	props: ['game'],
-	data() {
-		return {};
-	},
 	computed: {
-		players() {
-			return this.game.gamePlayers;
+		gamePlayers() {
+			if (this.game) {
+				return this.game.gamePlayers;
+			}
+			return [];
 		},
 	},
 	components: {

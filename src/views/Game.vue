@@ -20,23 +20,21 @@ export default {
 		};
 	},
 	computed: {
-		/* games() {
-			return this.$store.getters.games;
-		}, */
 		game() {
 			return this.$store.getters.currentGame(this.gameId);
 		},
 		gamePlayers() {
-			return this.game.gamePlayers;
+			if (this.game && this.game.gamePlayers) {
+				return this.game.gamePlayers;
+			}
+			return [];
 		},
 		gameName() {
-			return this.game.gameName;
+			if (this.game) {
+				return this.game.gameName;
+			}
+			return '';
 		},
-	},
-	methods: {
-		/* getGame(games, gameId) {
-			return games.find(o => o.gameId === gameId);
-		}, */
 	},
 	components: {
 		gameScores,

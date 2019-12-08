@@ -17,9 +17,6 @@ export default new Vuex.Store({
 		mainColor: '#1976d2',
 	},
 	mutations: {
-		/* setStateFromFirestore(user) {
-			this.state.user = user;
-		}, */
 		addPlayer(state, player) {
 			state.user.players.push(player);
 		},
@@ -44,11 +41,6 @@ export default new Vuex.Store({
 				gameName: payload.gameName,
 				gamePlayers: payload.players,
 			});
-			/* state.user.games.push({
-				gameId: state.nextGameId.toString(),
-				gameName: payload.gameName,
-				gamePlayers: payload.players,
-			}); */
 		},
 		setUser(state, userData) {
 			state.user = userData;
@@ -71,7 +63,6 @@ export default new Vuex.Store({
 		setColor(state, color) {
 			state.mainColor = color;
 		},
-		// setUser: (state) => { state.user = firebase.auth().currentUser; },
 		...vuexfireMutations,
 	},
 	actions: {
@@ -86,15 +77,9 @@ export default new Vuex.Store({
 							displayName: payload.username,
 						}).then(() => {
 							context.commit('setUsername', authData.user.displayName);
-							// firestore.collection('users').doc(authData.user.uid).set({ username: authData.user.displayName });
 						}).catch((error) => {
 							console.log('updateProfile failed: ', error);
 						});
-
-						/* const docRef = firestore.collection('users').doc(authData.user.uid);
-						docRef.onSnapshot((snapshot) => {
-							console.log('createUser().onSnapshot(): ', snapshot.data());
-						}); */
 					},
 				)
 				.catch(

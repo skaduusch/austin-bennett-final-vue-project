@@ -36,13 +36,20 @@ https://austinb-vue-final.netlify.com/players name input (at least 2 characters)
 https://austinb-vue-final.netlify.com/games/:gameId score input (must be a number)
 ```
 
-#### Create a custom directive and use it on at least one of your components.
+#### Create a custom global directive and use it on at least one of your components.
+
+```
+Custom directive 'mainColor' used to set app color theme on the Home route
+https://austinb-vue-final.netlify.com/
+https://github.com/skaduusch/austin-bennett-final-vue-project/blob/master/src/main.js lines 12-27
+```
 
 #### Use a mix of animations and transitions to enhance some aspects of your project.
 
 ```
-Routes transition
-
+Routes transition (quick fade out/in)
+Player names animate when adding and removing players https://austinb-vue-final.netlify.com/players
+Colors transition on home route when you change color theme https://austinb-vue-final.netlify.com/
 ```
 
 #### Connect to a server using HTTP and display retrieved data (use vue-resource or Axios).

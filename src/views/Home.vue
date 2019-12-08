@@ -2,7 +2,7 @@
 	<v-container class="home pa-6">
 		<h1>Welcome to Digital Scorecard {{ username }}!</h1>
 		<h3>Here you can track scores for card games, or any other kind of game.</h3>
-		<v-btn class="mt-4 white--text" v-mainColor="mainColor" @click="getStarted">Get Started</v-btn>
+		<v-btn class="start-btn mt-4 white--text" v-mainColor="mainColor" @click="getStarted">Get Started</v-btn>
 		<v-card class="mt-9">
 			<v-card-title>Pick your favorite color:</v-card-title>
 			<v-row class="d-flex px-6">
@@ -78,6 +78,9 @@ export default {
 }
 .orange {
 	background-color: #d87b02;
+}
+.start-btn {
+	transition: background-color 0.3s
 }
 
 </style>

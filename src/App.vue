@@ -6,7 +6,8 @@
 				<v-toolbar-title>Virtual Scorecard</v-toolbar-title>
 				<v-spacer></v-spacer>
 				<v-toolbar-items class="hidden-sm-and-down">
-					<router-link v-for="item in navItems" :key="item.title" :to="item.route">
+					<router-link v-for="item in navItems" :key="item.title" :to="item.route"
+					>
 						<div v-if="item.conditional" class="menu-link">
 							<v-list-item link>
 								<v-list-item-icon>
@@ -34,7 +35,6 @@
 				<v-list-item>
 					<v-list-item-content>
 						<v-list-item-title class="title">Virtual Scorecard</v-list-item-title>
-						<!-- <v-list-item-subtitle>subtext</v-list-item-subtitle> -->
 					</v-list-item-content>
 				</v-list-item>
 
@@ -67,11 +67,6 @@
 							</div>
 						</a>
 					</v-list>
-					<!-- <router-link to="/">Home</router-link>
-					<router-link to="/players">Players</router-link>
-					<router-link to="/games">Games</router-link>
-					<router-link to="/signin" v-if="!user">Sign In</router-link>
-					<router-link to="/signup" v-if="!user">Sign Up</router-link>-->
 					<span v-if="user">{{ username }}</span>
 				</nav>
 			</v-navigation-drawer>
@@ -216,6 +211,7 @@ header.v-toolbar {
 	flex: 0;
 }
 
+/* Fade Animation */
 .fade-leave-active {
 	transition: opacity 0.1s ease;
 	opacity: 0;
@@ -232,5 +228,31 @@ header.v-toolbar {
 }
 .fade-move {
 	transition: transform 1s;
+}
+
+/* Slide Animation */
+.slide-enter-active {
+	animation: slide-in 0.5s forwards;
+}
+.slide-leave-active {
+	animation: slide-out 0.5s forwards;
+}
+@keyframes slide-in {
+	from {
+		transform: translateY(3rem);
+	}
+	to {
+		transform: translateY(0);
+	}
+}
+@keyframes slide-out {
+	from {
+		transform: translateY(0);
+		opacity: 1;
+	}
+	to {
+		transform: translateY(1rem);
+		opacity: 0;
+	}
 }
 </style>

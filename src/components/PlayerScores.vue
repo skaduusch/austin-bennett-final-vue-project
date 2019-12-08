@@ -26,10 +26,9 @@
 </template>
 
 <script>
-// import firebase from 'firebase';
 import firestore from '../firebase';
 
-const numRegex = /(^$|^[0-9]*$|null)/;
+const numRegex = /(^$|^[0-9]*$|null)/; // checks to make sure it's a number
 export default {
 	props: ['player'],
 	data() {

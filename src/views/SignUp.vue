@@ -32,6 +32,16 @@
 				</form>
 			</v-col>
 		</v-row>
+		<v-row>
+			<v-col>
+				<v-card class="text-center d-inline-flex">
+					<v-card-title class="d-block">
+						Already have a user?
+						<router-link to="/signIn">Sign In</router-link>
+					</v-card-title>
+				</v-card>
+			</v-col>
+		</v-row>
 	</v-container>
 </template>
 

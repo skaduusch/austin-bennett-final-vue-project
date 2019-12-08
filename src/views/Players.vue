@@ -1,4 +1,3 @@
-
 <template>
 	<v-container class="grey lighten-5 mt-6">
 		<v-row>
@@ -46,7 +45,6 @@ import Player from '../components/Player.vue';
 import RandomPlayers from '../components/RandomPlayers.vue';
 import firestore from '../firebase';
 
-
 export default {
 	data: () => ({
 		playerName: '',
@@ -63,15 +61,14 @@ export default {
 		addPlayer() {
 			this.clearError();
 			if (this.playerName && this.playerName.length > 1) {
-				return this.userDocRef.update({
-					players: firebase.firestore.FieldValue.arrayUnion(
-						{
+				return this.userDocRef
+					.update({
+						players: firebase.firestore.FieldValue.arrayUnion({
 							id: this.playerId,
 							name: this.playerName,
 							editing: false,
-						},
-					),
-				})
+						}),
+					})
 					.then(() => {
 						this.playerName = '';
 					})
@@ -91,13 +88,18 @@ export default {
 		/* Start a new game with the current list of players, this is created directly on the firestore */
 		newGame() {
 			const gamePlayers = this.players.map(obj => ({ ...obj, scores: [] }));
-			this.userDocRef.collection('games').add({
-				gameName: this.gameName,
-				gamePlayers,
-				created: firebase.firestore.Timestamp.now(),
-			})
+			this.userDocRef
+				.collection('games')
+				.add({
+					gameName: this.gameName,
+					gamePlayers,
+					created: firebase.firestore.Timestamp.now(),
+				})
 				.then((docRef) => {
-					this.userDocRef.collection('games').doc(docRef.id).update({ gameId: docRef.id });
+					this.userDocRef
+						.collection('games')
+						.doc(docRef.id)
+						.update({ gameId: docRef.id });
 					this.$router.push(`/games/${docRef.id}`);
 				})
 				.catch(error => console.log('error adding new game:', error));

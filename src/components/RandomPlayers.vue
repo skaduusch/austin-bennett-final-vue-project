@@ -54,22 +54,17 @@ export default {
 				console.error(error);
 			});
 	},
-	/* created() {
-		firebase.auth().user.updateProfile({
-			displayName: 'Skaduusch',
-		}).then().catch();
-	}, */
 	methods: {
 		addName(name) {
-			return this.userDocRef.update({
-				players: firebase.firestore.FieldValue.arrayUnion(
-					{
+			return this.userDocRef
+				.update({
+					players: firebase.firestore.FieldValue.arrayUnion({
 						id: this.playerId,
 						name,
 						editing: false,
-					},
-				),
-			}).then()
+					}),
+				})
+				.then()
 				.catch((error) => {
 					console.log('error adding player', error);
 				});
@@ -78,5 +73,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

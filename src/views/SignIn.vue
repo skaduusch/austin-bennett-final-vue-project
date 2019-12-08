@@ -23,6 +23,16 @@
 				</form>
 			</v-col>
 		</v-row>
+		<v-row>
+			<v-col>
+				<v-card class="text-center d-inline-flex">
+					<v-card-title class="d-block">
+						New to Digital Scorecard?
+						<router-link to="/signUp">Sign Up</router-link>
+					</v-card-title>
+				</v-card>
+			</v-col>
+		</v-row>
 	</v-container>
 </template>
 
@@ -55,7 +65,7 @@ export default {
 	watch: {
 		user(value) {
 			if (value !== null && value !== undefined) {
-				this.$router.push('/');
+				this.$router.push('/players');
 			}
 		},
 	},
