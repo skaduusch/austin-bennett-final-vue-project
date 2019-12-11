@@ -28,7 +28,7 @@
 						id="confirmPassword"
 						:rules="password2Rules"
 					></v-text-field>
-					<v-btn class="submit primary" type="submit">Sign Up</v-btn>
+					<v-btn class="submit primary" type="submit" :disabled="disabled">Sign Up</v-btn>
 				</form>
 			</v-col>
 		</v-row>
@@ -59,10 +59,10 @@ export default {
 				value => emailRegex.test(value) || 'Valid email is required',
 			],
 			passwordRules: [
-				value => value.length > 7 || 'Password much be at least 8 characters',
+				value => value.length > 5 || 'Password much be at least 6 characters',
 			],
 			password2Rules: [
-				value => value.length > 7 || 'Password much be at least 8 characters',
+				value => value.length > 5 || 'Password much be at least 6 characters',
 				value => value === this.password || 'Passwords much match',
 			],
 		};
@@ -71,9 +71,13 @@ export default {
 		user() {
 			return this.$store.getters.user;
 		},
+		disabled() {
+			return this.$store.getters.loginDisabled;
+		},
 	},
 	methods: {
 		signUp() {
+			this.$store.commit('disableLogin');
 			this.$store.dispatch('createUser', { email: this.email, username: this.username, password: this.password });
 		},
 	},

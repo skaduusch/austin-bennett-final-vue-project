@@ -19,8 +19,9 @@
 						id="password"
 						:rules="passwordRules"
 					></v-text-field>
-					<v-btn class="submit primary" type="submit">Sign In</v-btn>
+					<v-btn class="submit primary" type="submit" :disabled="disabled">Sign In</v-btn>
 				</form>
+				<error :error="error" v-if="error"></error>
 			</v-col>
 		</v-row>
 		<v-row>
@@ -37,6 +38,8 @@
 </template>
 
 <script>
+import Error from '../components/Error.vue';
+
 const emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 export default {
@@ -56,9 +59,16 @@ export default {
 		user() {
 			return this.$store.getters.user;
 		},
+		error() {
+			return this.$store.getters.error;
+		},
+		disabled() {
+			return this.$store.getters.loginDisabled;
+		},
 	},
 	methods: {
 		signIn() {
+			this.$store.commit('disableLogin');
 			this.$store.dispatch('signIn', { email: this.email, password: this.password });
 		},
 	},
@@ -68,6 +78,9 @@ export default {
 				this.$router.push('/players');
 			}
 		},
+	},
+	components: {
+		Error,
 	},
 };
 </script>

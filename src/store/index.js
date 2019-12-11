@@ -15,6 +15,8 @@ export default new Vuex.Store({
 		games: [],
 		uid: '',
 		mainColor: '#1976d2',
+		error: null,
+		loginDisabled: false,
 	},
 	mutations: {
 		addPlayer(state, player) {
@@ -60,6 +62,15 @@ export default new Vuex.Store({
 			state.games = {};
 			state.uid = '';
 		},
+		error(state, error) {
+			state.error = error;
+		},
+		disableLogin(state) {
+			state.loginDisabled = true;
+		},
+		enableLogin(state) {
+			state.loginDisabled = false;
+		},
 		setColor(state, color) {
 			state.mainColor = color;
 		},
@@ -85,6 +96,7 @@ export default new Vuex.Store({
 				.catch(
 					(error) => {
 						console.log(error);
+						context.commit('enableLogin');
 					},
 				);
 		},
@@ -94,6 +106,13 @@ export default new Vuex.Store({
 				.catch(
 					(error) => {
 						console.log('signIn() Error Logging In: ', error);
+						if (error.code === 'auth/wrong-password') {
+							context.commit('error', 'Incorrect password. Please try again.');
+							context.commit('enableLogin');
+						} else if (error.code === 'auth/user-not-found') {
+							context.commit('error', 'No user found with that email. Create a new account instead?');
+							context.commit('enableLogin');
+						}
 					},
 				);
 		},
@@ -125,6 +144,8 @@ export default new Vuex.Store({
 		nextGameId: state => state.nextGameId || 0,
 		games: state => state.games || [],
 		currentGame: state => gameId => state.games.find(o => o.gameId === gameId),
+		error: state => state.error,
+		loginDisabled: state => state.loginDisabled,
 		mainColor: state => state.mainColor,
 	},
 });
